@@ -1,7 +1,7 @@
 {
     "workbench.colorCustomizations": {
-        "activityBar.background": "#531B0C",
-        "titleBar.activeBackground": "#752611",
+        "activityBar.background": "#700e68",
+        "titleBar.activeBackground": "#911576",
         "titleBar.activeForeground": "#FEFCFB"
     },
     "java.compile.nullAnalysis.mode": "automatic",

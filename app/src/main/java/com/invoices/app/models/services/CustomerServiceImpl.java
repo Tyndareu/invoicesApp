@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.invoices.app.models.dao.ICustomerDao;
 import com.invoices.app.models.entities.Customer;
@@ -29,14 +31,16 @@ public class CustomerServiceImpl implements ICustomerService {
   @Transactional(readOnly = true)
   public Customer findCustomerById(Long id) {
     if (id == null) {
-      throw new IllegalArgumentException("The customer id cannot be null");
+      throw new IllegalArgumentException("Customer ID can't be null");
     }
+
     return customerDao.findById(id)
-        .orElseThrow(() -> new RuntimeException("Customer not found"));
+        .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
   }
 
   @Override
   public Customer saveCustomer(Customer customer) {
+
     if (customer == null) {
       throw new IllegalArgumentException("The customer cannot be null");
     }
@@ -45,7 +49,8 @@ public class CustomerServiceImpl implements ICustomerService {
 
   @Override
   public void deleteCustomer(Long id) {
-   if (id == null) {
+
+    if (id == null) {
       throw new IllegalArgumentException("The customer id cannot be null");
     }
     customerDao.deleteById(id);
@@ -53,11 +58,17 @@ public class CustomerServiceImpl implements ICustomerService {
 
   @Override
   public Page<Customer> findAll(Pageable pageable) {
-  if (pageable == null) {
+    if (pageable == null) {
       throw new IllegalArgumentException("The pageable cannot be null");
     }
     return customerDao.findAll(pageable);
   }
 
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public static class CustomerNotFoundException extends RuntimeException {
 
+    public CustomerNotFoundException(String message) {
+      super(message);
+    }
+  }
 }
