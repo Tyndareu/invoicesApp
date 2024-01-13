@@ -1,4 +1,4 @@
-package com.invoices.app.models.services;
+package com.invoices.app.models.services.customer;
 
 import java.util.List;
 

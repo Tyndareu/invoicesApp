@@ -57,5 +57,4 @@ public class Customer {
   public void prePersist() {
     this.createAt = new Date();
   }
-
 }

@@ -8,7 +8,7 @@
 -- INSERT INTO regions (id, name) VALUES (7, 'North America');
 -- INSERT INTO regions (id, name) VALUES (8, 'South America');
 -- INSERT INTO regions (id, name) VALUES (9, 'Central America');
-INSERT INTO customers (name, last_name, email, created_at) VALUES('Andrés', 'Guzmán', 'profesor@bolsadeideas.com', '2018-01-01');
+INSERT INTO customers (name, last_name, email, created_at) VALUES('Andrï¿½s', 'Guzmï¿½n', 'profesor@bolsadeideas.com', '2018-01-01');
 INSERT INTO customers (name, last_name, email, created_at) VALUES('Mr. John', 'Doe', 'john.doe@gmail.com', '2018-01-02');
 INSERT INTO customers (name, last_name, email, created_at) VALUES('Linus', 'Torvalds', 'linus.torvalds@gmail.com', '2018-01-03');
 INSERT INTO customers (name, last_name, email, created_at) VALUES('Rasmus', 'Lerdorf', 'rasmus.lerdorf@gmail.com', '2018-01-04');
@@ -69,10 +69,10 @@ INSERT INTO customers (name, last_name, email, created_at) VALUES('Joe','Montana
 -- INSERT INTO products (name, price, created_at) VALUES('Gray scarf', 1100, NOW());
 -- INSERT INTO products (name, price, created_at) VALUES('Yellow gloves', 1200, NOW());
 /* Create some invoices */
--- INSERT INTO bills (description, observation, client_id, created_at) VALUES('Shirt purchase invoice',null, 1, NOW());
--- INSERT INTO bills_items (quantity, bill_id, product_id) VALUES(1,1,1);
--- INSERT INTO bills_items (quantity, bill_id, product_id) VALUES(2,1,4);
--- INSERT INTO bills_items (quantity, bill_id, product_id) VALUES(1,1,5);
--- INSERT INTO bills_items (quantity, bill_id, product_id) VALUES(1,1,7);
--- INSERT INTO bills (description,observation, client_id, created_at) VALUES('Pants purchase invoice','Out of season', 1, NOW());
--- INSERT INTO bills_items (quantity, bill_id, product_id) VALUES(3,2,2);
+INSERT INTO invoices (description, observation, customer_id, create_at) VALUES('Shirt purchase invoice',null, 1, NOW());
+-- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(1,1,1);
+-- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(2,1,4);
+-- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(1,1,5);
+-- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(1,1,7);
+INSERT INTO invoices (description,observation, customer_id, create_at) VALUES('Pants purchase invoice','Out of season', 1, NOW());
+-- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(3,2,2);

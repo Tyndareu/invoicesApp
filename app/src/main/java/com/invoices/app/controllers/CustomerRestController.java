@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.invoices.app.models.entities.Customer;
-import com.invoices.app.models.services.ICustomerService;
+import com.invoices.app.models.services.customer.ICustomerService;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
