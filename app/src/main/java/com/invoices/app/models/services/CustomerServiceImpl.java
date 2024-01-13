@@ -39,6 +39,7 @@ public class CustomerServiceImpl implements ICustomerService {
   }
 
   @Override
+  @Transactional
   public Customer saveCustomer(Customer customer) {
 
     if (customer == null) {
@@ -71,4 +72,5 @@ public class CustomerServiceImpl implements ICustomerService {
       super(message);
     }
   }
+
 }
