@@ -13,7 +13,9 @@ public interface IInvoiceService {
 
   public Invoice findInvoiceById(Long id);
 
-  public Invoice saveInvoice(Invoice invoice);
+  public Invoice updateInvoice(Invoice invoice);
+
+  public Invoice newInvoice(Long customerId, Invoice newInvoice);
 
   public void deleteInvoice(Long id);
 
