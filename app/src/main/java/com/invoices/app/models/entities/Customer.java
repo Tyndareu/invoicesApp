@@ -64,6 +64,19 @@ public class Customer {
   }
 
   @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
-  @JsonIgnoreProperties({ "customer" })
+  @JsonIgnoreProperties("customer")
   private List<Invoice> invoices;
+
+  public void copyFrom(Customer customerCopy) {
+    this.setName(customerCopy.getName());
+    this.setLastName(customerCopy.getLastName());
+    this.setEmail(customerCopy.getEmail());
+    this.setAddress(customerCopy.getAddress());
+    this.setPhone(customerCopy.getPhone());
+    this.setNit(customerCopy.getNit());
+    this.setCity(customerCopy.getCity());
+    this.setState(customerCopy.getState());
+    this.setCountry(customerCopy.getCountry());
+    this.setZip(customerCopy.getZip());
+}
 }

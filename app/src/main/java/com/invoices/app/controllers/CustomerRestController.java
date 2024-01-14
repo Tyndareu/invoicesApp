@@ -28,8 +28,14 @@ public class CustomerRestController {
   }
 
   @GetMapping
-  public List<Customer> getAllCustomers() {
-    return customerService.findAllCustomers();
+  public ResponseEntity<List<Customer>> getAllCustomers() {
+    List<Customer> customers = customerService.findAllCustomers();
+
+    if (customers.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.ok(customers);
+    }
   }
 
   @GetMapping("/{id}")
@@ -42,23 +48,14 @@ public class CustomerRestController {
 
   @PutMapping("/{id}")
   public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customerUpdate) {
-  
-      Customer customer = customerService.findCustomerById(id);
-      
-      customer.setName(customerUpdate.getName());
-      customer.setLastName(customerUpdate.getLastName());
-      customer.setEmail(customerUpdate.getEmail());
-      customer.setAddress(customerUpdate.getAddress());
-      customer.setPhone(customerUpdate.getPhone());
-      customer.setNit(customerUpdate.getNit());
-      customer.setCity(customerUpdate.getCity());
-      customer.setState(customerUpdate.getState());
-      customer.setCountry(customerUpdate.getCountry());
-      customer.setZip(customerUpdate.getZip());
 
-      customerService.saveCustomer(customer);
-      
-      return ResponseEntity.ok(customer);
+    Customer customer = customerService.findCustomerById(id);
+
+    customer.copyFrom(customerUpdate);
+
+    customerService.saveCustomer(customer);
+
+    return ResponseEntity.ok(customer);
   }
 
   @PostMapping()

@@ -2,6 +2,8 @@ package com.invoices.app.models.entities;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,6 +44,14 @@ public class Invoice {
   }
 
   @ManyToOne
+  @JsonIgnoreProperties("invoices")
   @JoinColumn(name = "customer_id")
   private Customer customer;
+
+  public void copyFrom(Invoice other) {
+    this.setDescription(other.getDescription());
+    this.setObservation(other.getObservation());
+    this.setAmount(other.getAmount());
+    this.setStatus(other.getStatus());
+  }
 }

@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements ICustomerService {
       throw new IllegalArgumentException("Customer ID can't be null");
     }
     return customerDao.findById(id)
-        .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
+        .orElseThrow(() -> new CustomerNotFoundException("Customer with ID " + id + " not found"));
   }
 
   @Override
