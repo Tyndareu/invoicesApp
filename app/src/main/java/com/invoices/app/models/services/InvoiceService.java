@@ -20,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InvoiceService {
 
+  private static final String notFound = " not found";
+
   private final IInvoiceDao invoiceDao;
   private final ICustomerDao customerDao;
 
@@ -34,7 +36,7 @@ public class InvoiceService {
       throw new IllegalArgumentException("Invoice ID can't be null");
     }
     return invoiceDao.findById(id)
-        .orElseThrow(() -> new InvoiceNotFoundException("Invoice with ID " + id + " not found"));
+        .orElseThrow(() -> new InvoiceNotFoundException("Invoice with ID " + id + notFound));
   }
 
   @Transactional
@@ -55,17 +57,21 @@ public class InvoiceService {
       throw new IllegalArgumentException("Customer ID can't be null");
     }
     Customer customer = customerDao.findById(customerId)
-        .orElseThrow(() -> new RuntimeException("Customer Id" + customerId + " not found"));
+        .orElseThrow(() -> new RuntimeException("Customer Id" + customerId + notFound));
 
     newInvoice.setCustomer(customer);
 
     return invoiceDao.save(newInvoice);
   }
 
+  @Transactional
   public void deleteInvoice(Long id) {
     if (id == null) {
       throw new IllegalArgumentException("Invoice ID can't be null");
     }
+    Invoice invoice = invoiceDao.findById(id)
+        .orElseThrow(() -> new InvoiceNotFoundException("Invoice with ID " + id + notFound));
+    invoice.getCustomer().getInvoices().remove(invoice);
     invoiceDao.deleteById(id);
   }
 

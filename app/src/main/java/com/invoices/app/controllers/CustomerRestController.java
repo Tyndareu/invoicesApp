@@ -33,15 +33,18 @@ public class CustomerRestController {
     this.customerService = customerService;
   }
 
-  @GetMapping @Cacheable("customers")
+  @GetMapping
+  @Cacheable("customers")
 
   public ResponseEntity<List<CustomerDto>> getAllCustomers() {
-    List<CustomerDto> customersDto = customerService.findAllCustomers()
+    List<CustomerDto> customersDto = customerService
+        .findAllCustomers()
         .stream()
         .map(CustomerDto::new)
         .collect(Collectors.toList());
 
-    return !customersDto.isEmpty() ? ResponseEntity.ok(customersDto) : ResponseEntity.noContent().build();
+       return !customersDto.isEmpty() ? ResponseEntity.ok(customersDto) : ResponseEntity.noContent().build();
+
   }
 
   @GetMapping("/{id}")
