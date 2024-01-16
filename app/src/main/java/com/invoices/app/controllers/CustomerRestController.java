@@ -1,7 +1,9 @@
 package com.invoices.app.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,55 +15,63 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.invoices.app.models.dto.CustomerDto;
+import com.invoices.app.models.dto.CustomerInvoicesDto;
 import com.invoices.app.models.entities.Customer;
-import com.invoices.app.models.services.customer.ICustomerService;
+import com.invoices.app.models.services.CustomerService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
 @RequestMapping("/api/customers")
 public class CustomerRestController {
 
-  private final ICustomerService customerService;
+  private final CustomerService customerService;
 
-  public CustomerRestController(ICustomerService customerService) {
+  public CustomerRestController(CustomerService customerService) {
     this.customerService = customerService;
   }
 
-  @GetMapping
-  public ResponseEntity<List<Customer>> getAllCustomers() {
-    List<Customer> customers = customerService.findAllCustomers();
+  @GetMapping @Cacheable("customers")
 
-    if (customers.isEmpty()) {
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.ok(customers);
-    }
+  public ResponseEntity<List<CustomerDto>> getAllCustomers() {
+    List<CustomerDto> customersDto = customerService.findAllCustomers()
+        .stream()
+        .map(CustomerDto::new)
+        .collect(Collectors.toList());
+
+    return !customersDto.isEmpty() ? ResponseEntity.ok(customersDto) : ResponseEntity.noContent().build();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+  public ResponseEntity<CustomerInvoicesDto> getCustomerById(@PathVariable Long id) {
 
-    Customer customer = customerService.findCustomerById(id);
+    CustomerInvoicesDto customerInvoicesDto = new CustomerInvoicesDto(customerService.findCustomerById(id));
 
-    return ResponseEntity.ok(customer);
+    return ResponseEntity.ok(customerInvoicesDto);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customerUpdate) {
+  public ResponseEntity<CustomerDto> updateCustomer(@PathVariable Long id,
+      @Valid @RequestBody Customer customerUpdate) {
+    if (id == null) {
+      return ResponseEntity.badRequest().build();
+    }
 
     Customer customer = customerService.findCustomerById(id);
-
     customer.copyFrom(customerUpdate);
-
     customerService.saveCustomer(customer);
+    CustomerDto customerDto = new CustomerDto(customer);
 
-    return ResponseEntity.ok(customer);
+    return ResponseEntity.ok(customerDto);
   }
 
   @PostMapping()
-  public ResponseEntity<Customer> saveCustomer(@RequestBody Customer newCustomer) {
+  public ResponseEntity<CustomerDto> saveCustomer(@Valid @RequestBody Customer newCustomer) {
     customerService.saveCustomer(newCustomer);
-    return ResponseEntity.ok(newCustomer);
+    CustomerDto newCustomerDto = new CustomerDto(newCustomer);
+    return ResponseEntity.ok(newCustomerDto);
   }
 
   @DeleteMapping("/{id}")

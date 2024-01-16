@@ -1,4 +1,4 @@
-package com.invoices.app.models.services.customer;
+package com.invoices.app.models.services;
 
 import java.util.List;
 
@@ -17,17 +17,15 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerServiceImpl implements ICustomerService {
+public class CustomerService {
 
   private final ICustomerDao customerDao;
 
-  @Override
   @Transactional(readOnly = true)
   public List<Customer> findAllCustomers() {
     return customerDao.findAll();
   }
 
-  @Override
   @Transactional(readOnly = true)
   public Customer findCustomerById(Long id) {
     if (id == null) {
@@ -37,7 +35,6 @@ public class CustomerServiceImpl implements ICustomerService {
         .orElseThrow(() -> new CustomerNotFoundException("Customer with ID " + id + " not found"));
   }
 
-  @Override
   @Transactional
   public Customer saveCustomer(Customer customer) {
 
@@ -55,7 +52,6 @@ public class CustomerServiceImpl implements ICustomerService {
     }
   }
 
-  @Override
   public void deleteCustomer(Long id) {
     if (id == null) {
       throw new IllegalArgumentException("The customer id cannot be null");
@@ -63,7 +59,6 @@ public class CustomerServiceImpl implements ICustomerService {
     customerDao.deleteById(id);
   }
 
-  @Override
   public Page<Customer> findAll(Pageable pageable) {
     if (pageable == null) {
       throw new IllegalArgumentException("The pageable cannot be null");

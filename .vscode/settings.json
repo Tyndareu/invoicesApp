@@ -10,5 +10,9 @@
         "editor.insertSpaces": true,
         "editor.tabSize": 2,
         "editor.detectIndentation": false
-    }
+    },
+    "java.debug.settings.onBuildFailureProceed": true,
+    "cSpell.words": [
+        "Dtos"
+    ]
 }

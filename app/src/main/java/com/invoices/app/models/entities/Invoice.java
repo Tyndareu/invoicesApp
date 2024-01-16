@@ -48,10 +48,10 @@ public class Invoice {
   @JoinColumn(name = "customer_id")
   private Customer customer;
 
-  public void copyFrom(Invoice other) {
-    this.setDescription(other.getDescription());
-    this.setObservation(other.getObservation());
-    this.setAmount(other.getAmount());
-    this.setStatus(other.getStatus());
+  public void copyFrom(Invoice copyInvoice) {
+    this.setDescription(copyInvoice.getDescription());
+    this.setObservation(copyInvoice.getObservation());
+    this.setAmount(copyInvoice.getAmount());
+    this.setStatus(copyInvoice.getStatus());
   }
 }

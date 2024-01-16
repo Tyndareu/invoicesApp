@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -63,7 +64,7 @@ public class Customer {
     this.createAt = new Date();
   }
 
-  @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonIgnoreProperties("customer")
   private List<Invoice> invoices;
 
@@ -78,5 +79,5 @@ public class Customer {
     this.setState(customerCopy.getState());
     this.setCountry(customerCopy.getCountry());
     this.setZip(customerCopy.getZip());
-}
+  }
 }
