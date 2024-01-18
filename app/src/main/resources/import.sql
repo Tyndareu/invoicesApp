@@ -56,18 +56,18 @@ INSERT INTO customers (name, last_name, email, created_at) VALUES('David','Beckh
 INSERT INTO customers (name, last_name, email, created_at) VALUES('Wayne','Gretzky','wayne.gretzky@example.com', '2018-04-09');
 INSERT INTO customers (name, last_name, email, created_at) VALUES('Joe','Montana','joe.montana@example.com', '2018-04-10');
 /* Create some products */
--- INSERT INTO products (name, price, created_at) VALUES('Blue shirt', 100, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Black pants', 200, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Red socks', 300, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Green sweater', 400, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('White cap', 500, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Brown backpack', 600, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Silver watch', 700, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Brown shoes', 800, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Black belt', 900, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Sunglasses', 1000, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Gray scarf', 1100, NOW());
--- INSERT INTO products (name, price, created_at) VALUES('Yellow gloves', 1200, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Blue shirt', 100, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Black pants', 200, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Red socks', 300, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Green sweater', 400, NOW());
+INSERT INTO products (name, price, created_at) VALUES('White cap', 500, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Brown backpack', 600, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Silver watch', 700, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Brown shoes', 800, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Black belt', 900, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Sunglasses', 1000, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Gray scarf', 1100, NOW());
+INSERT INTO products (name, price, created_at) VALUES('Yellow gloves', 1200, NOW());
 /* Create some invoices */
 INSERT INTO invoices (description, observation, customer_id, create_at) VALUES('Shirt purchase invoice',null, 1, NOW());
 INSERT INTO invoices (description,observation, customer_id, create_at) VALUES('Pants purchase invoice','Out of season', 1, NOW());

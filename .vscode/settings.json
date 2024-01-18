@@ -1,9 +1,9 @@
 {
-    "workbench.colorCustomizations": {
-        "activityBar.background": "#700e68",
-        "titleBar.activeBackground": "#911576",
-        "titleBar.activeForeground": "#FEFCFB"
-    },
+    // "workbench.colorCustomizations": {
+    //     "activityBar.background": "#700e68",
+    //     "titleBar.activeBackground": "#911576",
+    //     "titleBar.activeForeground": "#FEFCFB"
+    // },
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "automatic",
     "[java]": {
@@ -14,5 +14,19 @@
     "java.debug.settings.onBuildFailureProceed": true,
     "cSpell.words": [
         "Dtos"
-    ]
+    ],
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit",
+        "source.sortMembers": "explicit"
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#24236E",
+        "titleBar.activeBackground": "#32319A",
+        "titleBar.activeForeground": "#FAFAFD"
+    },
+
 }

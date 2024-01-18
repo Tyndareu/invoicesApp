@@ -1,13 +1,14 @@
 package com.invoices.app.models.dto;
 
-import java.util.stream.Collectors;
+import java.util.Date;
 
 import com.invoices.app.models.entities.Customer;
 
 import lombok.Data;
 
 @Data
-public class CustomerInvoicesDto {
+public class CustomerNotInvoicesDto {
+
   private Long id;
   private String name;
   private String lastName;
@@ -19,10 +20,12 @@ public class CustomerInvoicesDto {
   private String state;
   private String country;
   private String zip;
-  private String createAt;
-  private java.util.List<InvoiceDto> invoices;
+  private Date createAt;
 
-  public CustomerInvoicesDto(Customer customer) {
+  public CustomerNotInvoicesDto() {
+  }
+
+  public CustomerNotInvoicesDto(Customer customer) {
     this.id = customer.getId();
     this.name = customer.getName();
     this.lastName = customer.getLastName();
@@ -34,9 +37,21 @@ public class CustomerInvoicesDto {
     this.state = customer.getState();
     this.country = customer.getCountry();
     this.zip = customer.getZip();
-    this.createAt = customer.getCreateAt().toString();
-    this.invoices = customer.getInvoices().stream()
-        .map(InvoiceDto::new)
-        .collect(Collectors.toList());
+    this.createAt = customer.getCreateAt();
+  }
+
+  public CustomerNotInvoicesDto(CustomerDto customerDto) {
+    this.id = customerDto.getId();
+    this.name = customerDto.getName();
+    this.lastName = customerDto.getLastName();
+    this.address = customerDto.getAddress();
+    this.phone = customerDto.getPhone();
+    this.email = customerDto.getEmail();
+    this.nit = customerDto.getNit();
+    this.city = customerDto.getCity();
+    this.state = customerDto.getState();
+    this.country = customerDto.getCountry();
+    this.zip = customerDto.getZip();
+    this.createAt = customerDto.getCreateAt();
   }
 }

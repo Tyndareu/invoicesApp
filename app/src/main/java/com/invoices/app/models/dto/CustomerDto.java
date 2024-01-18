@@ -1,5 +1,9 @@
 package com.invoices.app.models.dto;
 
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.invoices.app.models.entities.Customer;
 
 import lombok.Data;
@@ -17,7 +21,8 @@ public class CustomerDto {
   private String state;
   private String country;
   private String zip;
-  private String createAt;
+  private Date createAt;
+  private List<InvoiceDto> invoices;
 
   public CustomerDto(Customer customer) {
     this.id = customer.getId();
@@ -31,6 +36,10 @@ public class CustomerDto {
     this.state = customer.getState();
     this.country = customer.getCountry();
     this.zip = customer.getZip();
-    this.createAt = customer.getCreateAt().toString();
+    this.createAt = customer.getCreateAt();
+    this.invoices = customer.getInvoices()
+        .stream()
+        .map(InvoiceDto::new)
+        .collect(Collectors.toList());
   }
 }

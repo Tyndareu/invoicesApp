@@ -6,5 +6,4 @@ import com.invoices.app.models.entities.Invoice;
 
 public interface IInvoiceDao extends JpaRepository<Invoice, Long> {
 
-  
 }

@@ -1,7 +1,6 @@
 package com.invoices.app.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.invoices.app.models.dto.CustomerDto;
-import com.invoices.app.models.dto.CustomerInvoicesDto;
-import com.invoices.app.models.entities.Customer;
+import com.invoices.app.models.dto.CustomerNotInvoicesDto;
 import com.invoices.app.models.services.CustomerService;
 
 import jakarta.validation.Valid;
@@ -36,50 +34,41 @@ public class CustomerRestController {
   @GetMapping
   @Cacheable("customers")
 
-  public ResponseEntity<List<CustomerDto>> getAllCustomers() {
-    List<CustomerDto> customersDto = customerService
-        .findAllCustomers()
-        .stream()
-        .map(CustomerDto::new)
-        .collect(Collectors.toList());
-
-       return !customersDto.isEmpty() ? ResponseEntity.ok(customersDto) : ResponseEntity.noContent().build();
-
+  public ResponseEntity<List<CustomerNotInvoicesDto>> getAllCustomers() {
+    List<CustomerNotInvoicesDto> customerWithoutInvoicesDto = customerService.findAllCustomersNotInvoices();
+    return !customerWithoutInvoicesDto.isEmpty() ? ResponseEntity.ok(customerWithoutInvoicesDto)
+        : ResponseEntity.noContent().build();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<CustomerInvoicesDto> getCustomerById(@PathVariable Long id) {
+  public ResponseEntity<CustomerDto> getCustomerById(@Valid @PathVariable Long id) {
 
-    CustomerInvoicesDto customerInvoicesDto = new CustomerInvoicesDto(customerService.findCustomerById(id));
-
-    return ResponseEntity.ok(customerInvoicesDto);
-  }
-
-  @PutMapping("/{id}")
-  public ResponseEntity<CustomerDto> updateCustomer(@PathVariable Long id,
-      @Valid @RequestBody Customer customerUpdate) {
-    if (id == null) {
-      return ResponseEntity.badRequest().build();
-    }
-
-    Customer customer = customerService.findCustomerById(id);
-    customer.copyFrom(customerUpdate);
-    customerService.saveCustomer(customer);
-    CustomerDto customerDto = new CustomerDto(customer);
+    CustomerDto customerDto = customerService.findCustomerById(id);
 
     return ResponseEntity.ok(customerDto);
   }
 
+  @PutMapping("/{id}")
+  public ResponseEntity<CustomerNotInvoicesDto> updateCustomer(@Valid @PathVariable Long id,
+      @Valid @RequestBody CustomerNotInvoicesDto customerNotInvoicesDto) {
+    if (id == null) {
+      return ResponseEntity.badRequest().build();
+    }
+    customerService.updateCustomer(customerNotInvoicesDto);
+
+    return ResponseEntity.ok(customerNotInvoicesDto);
+  }
+
   @PostMapping()
-  public ResponseEntity<CustomerDto> saveCustomer(@Valid @RequestBody Customer newCustomer) {
-    customerService.saveCustomer(newCustomer);
-    CustomerDto newCustomerDto = new CustomerDto(newCustomer);
-    return ResponseEntity.ok(newCustomerDto);
+  public ResponseEntity<CustomerNotInvoicesDto> newCustomer(@Valid @RequestBody CustomerNotInvoicesDto newCustomer) {
+    customerService.newCustomer(newCustomer);
+    return ResponseEntity.ok(newCustomer);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+  public ResponseEntity<Void> deleteCustomer(@Valid @PathVariable Long id) {
     customerService.deleteCustomer(id);
     return ResponseEntity.noContent().build();
   }
+
 }
