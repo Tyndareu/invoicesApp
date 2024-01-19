@@ -12,7 +12,10 @@ public class InvoiceDto {
   private Double amount;
   private Boolean status;
   private String createAt;
-  private CustomerNotInvoicesDto customer;
+  private CustomersWithoutInvoices customer;
+
+  public InvoiceDto() {
+  }
 
   public InvoiceDto(Invoice invoice) {
     this.id = invoice.getId();
@@ -21,7 +24,7 @@ public class InvoiceDto {
     this.amount = invoice.getAmount();
     this.status = invoice.getStatus();
     this.createAt = invoice.getCreateAt().toString();
-    this.customer = new CustomerNotInvoicesDto(invoice.getCustomer());
+    this.customer = new CustomersWithoutInvoices(invoice.getCustomer());
   }
 
 }

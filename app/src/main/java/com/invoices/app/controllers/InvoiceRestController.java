@@ -1,12 +1,11 @@
 package com.invoices.app.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.invoices.app.models.dto.InvoiceDto;
-import com.invoices.app.models.entities.Invoice;
 import com.invoices.app.models.services.InvoiceService;
 
 import jakarta.validation.Valid;
@@ -35,44 +33,31 @@ public class InvoiceRestController {
 
   @GetMapping
   @Cacheable("invoices")
-  public ResponseEntity<List<InvoiceDto>> getAllCustomers() {
-    List<InvoiceDto> invoicesDto = invoiceService.findAllInvoices();
-    return !invoicesDto.isEmpty() ? ResponseEntity.ok(invoicesDto) : ResponseEntity.noContent().build();
+  public ResponseEntity<List<InvoiceDto>> getAllInvoices() {
+    List<InvoiceDto> invoiceDtos = invoiceService.findAllInvoices();
+    return ResponseEntity.ok(invoiceDtos);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<InvoiceDto> getInvoiceById(@Valid @PathVariable Long id) {
-
+  public ResponseEntity<InvoiceDto> getInvoiceById(@NonNull @PathVariable Long id) {
     InvoiceDto invoiceDto = invoiceService.findInvoiceById(id);
     return ResponseEntity.ok(invoiceDto);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<InvoiceDto> updateInvoice(@Valid @PathVariable Long id,
-      @Valid @RequestBody Invoice invoiceUpdate) {
+  public ResponseEntity<InvoiceDto> updateInvoice(@NonNull @PathVariable Long id,
+      @Valid @RequestBody InvoiceDto invoiceUpdate) {
 
-    if (id == null) {
-      return ResponseEntity.badRequest().build();
-    }
-
-    InvoiceDto invoiceDto = invoiceService.findInvoiceById(id);
-
-    invoiceService.updateInvoice(invoiceDto);
-
+    InvoiceDto invoiceDto = invoiceService.updateInvoice(id, invoiceUpdate);
     return ResponseEntity.ok(invoiceDto);
   }
 
   @PostMapping()
-  public ResponseEntity<InvoiceDto> createInvoice(@Valid @RequestParam Long customerId,
-      @Valid @RequestBody Invoice newInvoice) {
-    invoiceService.newInvoice(customerId, newInvoice);
-    InvoiceDto newInvoiceDto = new InvoiceDto(newInvoice);
-    return ResponseEntity.ok(newInvoiceDto);
-  }
+  public ResponseEntity<InvoiceDto> newInvoice(
+      @NonNull @RequestParam Long customerId,
+      @NonNull @Valid @RequestBody InvoiceDto newInvoiceDto) {
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteInvoice(@Valid @PathVariable Long id) {
-    invoiceService.deleteInvoice(id);
-    return ResponseEntity.noContent().build();
+    InvoiceDto invoiceDto = invoiceService.newInvoice(customerId, newInvoiceDto);
+    return ResponseEntity.ok(invoiceDto);
   }
 }

@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.invoices.app.models.dao.ICustomerDao;
 import com.invoices.app.models.dao.IInvoiceDao;
-import com.invoices.app.models.dto.CustomerNotInvoicesDto;
 import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.entities.Customer;
 import com.invoices.app.models.entities.Invoice;
@@ -47,6 +47,7 @@ public class InvoiceService {
   // * End Errors Control
 
   private static final String notFound = " not found";
+  private static final String invoiceId = "Invoice with ID ";
 
   private final IInvoiceDao invoiceDao;
 
@@ -66,32 +67,35 @@ public class InvoiceService {
       throw new IllegalArgumentException("Invoice ID can't be null");
     }
     Invoice invoice = invoiceDao.findById(id)
-        .orElseThrow(() -> new InvoiceNotFoundException("Invoice with ID " + id + notFound));
+        .orElseThrow(() -> new InvoiceNotFoundException(invoiceId + id + notFound));
     return new InvoiceDto(invoice);
   }
 
   @Transactional
-  public InvoiceDto updateInvoice(InvoiceDto invoiceDto) {
+  public InvoiceDto updateInvoice(@NonNull Long id, InvoiceDto invoiceDto) {
     if (invoiceDto == null) {
       throw new IllegalArgumentException("Invoice can't be null");
     }
+
+    Invoice existingInvoice = invoiceDao.findById(id)
+        .orElseThrow(() -> new InvoiceNotFoundException(invoiceId + id + notFound));
+
+    existingInvoice.setDescription(invoiceDto.getDescription());
+    existingInvoice.setObservation(invoiceDto.getObservation());
+    existingInvoice.setAmount(invoiceDto.getAmount());
+    existingInvoice.setStatus(invoiceDto.getStatus());
+
     try {
-      return invoiceDao.save(invoiceDto);
+      existingInvoice = invoiceDao.save(existingInvoice);
+      return new InvoiceDto(existingInvoice);
+
     } catch (Exception e) {
       throw new InvoiceSaveException("Error saving customer: Unable to save customer information", e);
     }
   }
 
-  // * error control
-
   @Transactional
-  public InvoiceDto newInvoice(Long customerId, InvoiceDto newInvoiceDto) {
-    if (customerId == null) {
-      throw new IllegalArgumentException("Customer ID can't be null");
-    }
-    if (newInvoiceDto == null) {
-      throw new IllegalArgumentException("The invoice cannot be null");
-    }
+  public InvoiceDto newInvoice(@NonNull Long customerId, @NonNull InvoiceDto newInvoiceDto) {
 
     Customer customer = customerDao.findById(customerId)
         .orElseThrow(() -> new RuntimeException("Customer Id" + customerId + notFound));
@@ -108,13 +112,8 @@ public class InvoiceService {
   }
 
   @Transactional
-  public void deleteInvoice(Long id) {
-    if (id == null) {
-      throw new IllegalArgumentException("Invoice ID can't be null");
-    }
-    Invoice invoice = invoiceDao.findById(id)
-        .orElseThrow(() -> new InvoiceNotFoundException("Invoice with ID " + id + notFound));
-    invoice.getCustomer().getInvoices().remove(invoice);
+  public void deleteInvoice(@NonNull Long id) {
+
     invoiceDao.deleteById(id);
   }
 
@@ -126,6 +125,9 @@ public class InvoiceService {
     Invoice invoice = new Invoice();
     invoice.setAmount(invoiceDto.getAmount());
     invoice.setStatus(invoiceDto.getStatus());
+    invoice.setObservation(invoiceDto.getObservation());
+    invoice.setDescription(invoiceDto.getDescription());
+
     return invoice;
 
   }

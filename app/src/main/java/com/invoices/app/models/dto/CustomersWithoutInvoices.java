@@ -7,7 +7,7 @@ import com.invoices.app.models.entities.Customer;
 import lombok.Data;
 
 @Data
-public class CustomerNotInvoicesDto {
+public class CustomersWithoutInvoices {
 
   private Long id;
   private String name;
@@ -22,10 +22,10 @@ public class CustomerNotInvoicesDto {
   private String zip;
   private Date createAt;
 
-  public CustomerNotInvoicesDto() {
+  public CustomersWithoutInvoices() {
   }
 
-  public CustomerNotInvoicesDto(Customer customer) {
+  public CustomersWithoutInvoices(Customer customer) {
     this.id = customer.getId();
     this.name = customer.getName();
     this.lastName = customer.getLastName();
@@ -40,7 +40,7 @@ public class CustomerNotInvoicesDto {
     this.createAt = customer.getCreateAt();
   }
 
-  public CustomerNotInvoicesDto(CustomerDto customerDto) {
+  public CustomersWithoutInvoices(CustomerDto customerDto) {
     this.id = customerDto.getId();
     this.name = customerDto.getName();
     this.lastName = customerDto.getLastName();
