@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +47,7 @@ public class InvoiceRestController {
 
   @PutMapping("/{id}")
   public ResponseEntity<InvoiceDto> updateInvoice(@NonNull @PathVariable Long id,
-      @Valid @RequestBody InvoiceDto invoiceUpdate) {
+      @Valid @NonNull @RequestBody InvoiceDto invoiceUpdate) {
 
     InvoiceDto invoiceDto = invoiceService.updateInvoice(id, invoiceUpdate);
     return ResponseEntity.ok(invoiceDto);
@@ -59,5 +60,12 @@ public class InvoiceRestController {
 
     InvoiceDto invoiceDto = invoiceService.newInvoice(customerId, newInvoiceDto);
     return ResponseEntity.ok(invoiceDto);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteInvoice(@NonNull @PathVariable Long id) {
+    invoiceService.deleteInvoice(id);
+    return ResponseEntity.noContent().build();
+
   }
 }

@@ -59,7 +59,7 @@ public class Customer {
   @Temporal(TemporalType.DATE)
   private Date createAt;
 
-  @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnoreProperties("customer")
   private List<Invoice> invoices;
 

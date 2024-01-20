@@ -49,7 +49,7 @@ public class CustomerRestController {
 
   @PutMapping("/{id}")
   public ResponseEntity<CustomersWithoutInvoices> updateCustomer(@NonNull @PathVariable Long id,
-      @Valid @RequestBody CustomersWithoutInvoices customerNotInvoicesDto) {
+      @NonNull @Valid @RequestBody CustomersWithoutInvoices customerNotInvoicesDto) {
 
     CustomersWithoutInvoices updatedCustomer = customerService.updateCustomer(id, customerNotInvoicesDto);
     return ResponseEntity.ok(updatedCustomer);

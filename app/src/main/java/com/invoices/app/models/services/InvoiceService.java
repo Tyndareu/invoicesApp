@@ -62,21 +62,14 @@ public class InvoiceService {
   }
 
   @Transactional(readOnly = true)
-  public InvoiceDto findInvoiceById(Long id) {
-    if (id == null) {
-      throw new IllegalArgumentException("Invoice ID can't be null");
-    }
+  public InvoiceDto findInvoiceById(@NonNull Long id) {
     Invoice invoice = invoiceDao.findById(id)
         .orElseThrow(() -> new InvoiceNotFoundException(invoiceId + id + notFound));
     return new InvoiceDto(invoice);
   }
 
   @Transactional
-  public InvoiceDto updateInvoice(@NonNull Long id, InvoiceDto invoiceDto) {
-    if (invoiceDto == null) {
-      throw new IllegalArgumentException("Invoice can't be null");
-    }
-
+  public InvoiceDto updateInvoice(@NonNull Long id, @NonNull InvoiceDto invoiceDto) {
     Invoice existingInvoice = invoiceDao.findById(id)
         .orElseThrow(() -> new InvoiceNotFoundException(invoiceId + id + notFound));
 
@@ -113,7 +106,6 @@ public class InvoiceService {
 
   @Transactional
   public void deleteInvoice(@NonNull Long id) {
-
     invoiceDao.deleteById(id);
   }
 

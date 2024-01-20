@@ -65,20 +65,15 @@ public class CustomerService {
   }
 
   @Transactional(readOnly = true)
-  public CustomerDto findCustomerById(Long id) {
-    if (id == null) {
-      throw new IllegalArgumentException("Customer ID can't be null");
-    }
+  public CustomerDto findCustomerById(@NonNull Long id) {
     Customer customer = customerDao.findById(id)
         .orElseThrow(() -> new CustomerNotFoundException("Customer with ID " + id + " not found"));
     return new CustomerDto(customer);
   }
 
   @Transactional
-  public CustomersWithoutInvoices updateCustomer(@NonNull Long id, CustomersWithoutInvoices customersWithoutInvoices) {
-    if (customersWithoutInvoices == null) {
-      throw new IllegalArgumentException("The customer ID cannot be null");
-    }
+  public CustomersWithoutInvoices updateCustomer(@NonNull Long id,
+      @NonNull CustomersWithoutInvoices customersWithoutInvoices) {
 
     Customer existingCustomer = customerDao.findById(id)
         .orElseThrow(
@@ -130,10 +125,7 @@ public class CustomerService {
     customerDao.deleteById(id);
   }
 
-  public Page<Customer> findAll(Pageable pageable) {
-    if (pageable == null) {
-      throw new IllegalArgumentException("The pageable cannot be null");
-    }
+  public Page<Customer> findAll(@NonNull Pageable pageable) {
     return customerDao.findAll(pageable);
   }
 
