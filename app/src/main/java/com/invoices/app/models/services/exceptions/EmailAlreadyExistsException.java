@@ -1,4 +1,4 @@
-package com.invoices.app.models.exceptions;
+package com.invoices.app.models.services.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

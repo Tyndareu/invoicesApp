@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductsDto {
+public class ProductDto {
 
   private Long id;
   private String name;
@@ -21,7 +21,7 @@ public class ProductsDto {
   private Double price;
   private Date createdAt;
 
-  public ProductsDto(Product product) {
+  public ProductDto(Product product) {
     this.id = product.getId();
     this.name = product.getName();
     this.description = product.getDescription();

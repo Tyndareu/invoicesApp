@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.core.convert.ConversionService;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +12,8 @@ import com.invoices.app.models.dao.ICustomerDao;
 import com.invoices.app.models.dto.CustomerDto;
 import com.invoices.app.models.dto.CustomersWithoutInvoicesDto;
 import com.invoices.app.models.entities.Customer;
-import com.invoices.app.models.exceptions.NotFoundException;
-import com.invoices.app.models.exceptions.SaveException;
+import com.invoices.app.models.services.exceptions.NotFoundException;
+import com.invoices.app.models.services.exceptions.SaveException;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +43,8 @@ public class CustomerService {
   public CustomerDto findCustomerById(@NonNull Long id) {
     Customer customer = this.customerDao.findById(id)
         .orElseThrow(() -> new NotFoundException("Customer with ID " + id + " not found"));
-    return new CustomerDto(customer);
+
+    return this.conversionService.convert(customer, CustomerDto.class);
   }
 
   @Transactional
@@ -70,7 +69,7 @@ public class CustomerService {
     try {
       existingCustomer = this.customerDao.save(existingCustomer);
 
-      return new CustomersWithoutInvoicesDto(existingCustomer);
+      return this.conversionService.convert(existingCustomer, CustomersWithoutInvoicesDto.class);
 
     } catch (DataIntegrityViolationException e) {
       throw new SaveException("Error updating customer: Unable to update customer information", e);
@@ -100,10 +99,6 @@ public class CustomerService {
   public void deleteCustomer(@NonNull Long id) {
 
     this.customerDao.deleteById(id);
-  }
-
-  public Page<Customer> findAll(@NonNull Pageable pageable) {
-    return this.customerDao.findAll(pageable);
   }
 
 }
