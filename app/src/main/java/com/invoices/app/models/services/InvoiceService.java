@@ -2,60 +2,38 @@ package com.invoices.app.models.services;
 
 import java.util.List;
 
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.invoices.app.models.dao.ICustomerDao;
 import com.invoices.app.models.dao.IInvoiceDao;
 import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.entities.Customer;
 import com.invoices.app.models.entities.Invoice;
+import com.invoices.app.models.exceptions.NotFoundException;
+import com.invoices.app.models.exceptions.SaveException;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class InvoiceService {
-  // * Errors Control
-
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public class InvoiceSaveException extends RuntimeException {
-    InvoiceSaveException(String message, Throwable cause) {
-      super(message, cause);
-    }
-  }
-
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  static class InvoiceNotFoundException extends RuntimeException {
-    public InvoiceNotFoundException(String message) {
-      super(message);
-    }
-  }
-
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  class InvoiceEmailAlreadyExistsException extends RuntimeException {
-    public InvoiceEmailAlreadyExistsException(String message) {
-      super(message);
-    }
-  }
-
-  // * End Errors Control
 
   private static final String notFound = " not found";
   private static final String invoiceId = "Invoice with ID ";
+  private static final String saveError = "Error saving customer: Unable to save customer information";
 
   private final IInvoiceDao invoiceDao;
-
   private final ICustomerDao customerDao;
+  private final ConversionService conversionService;
 
   @Transactional(readOnly = true)
   public List<InvoiceDto> findAllInvoices() {
-    return invoiceDao.findAll()
+    return this.invoiceDao.findAll()
         .stream()
         .map(InvoiceDto::new)
         .toList();
@@ -63,15 +41,15 @@ public class InvoiceService {
 
   @Transactional(readOnly = true)
   public InvoiceDto findInvoiceById(@NonNull Long id) {
-    Invoice invoice = invoiceDao.findById(id)
-        .orElseThrow(() -> new InvoiceNotFoundException(invoiceId + id + notFound));
+    Invoice invoice = this.invoiceDao.findById(id)
+        .orElseThrow(() -> new NotFoundException(invoiceId + id + notFound));
     return new InvoiceDto(invoice);
   }
 
   @Transactional
   public InvoiceDto updateInvoice(@NonNull Long id, @NonNull InvoiceDto invoiceDto) {
-    Invoice existingInvoice = invoiceDao.findById(id)
-        .orElseThrow(() -> new InvoiceNotFoundException(invoiceId + id + notFound));
+    Invoice existingInvoice = this.invoiceDao.findById(id)
+        .orElseThrow(() -> new NotFoundException(invoiceId + id + notFound));
 
     existingInvoice.setDescription(invoiceDto.getDescription());
     existingInvoice.setObservation(invoiceDto.getObservation());
@@ -79,48 +57,42 @@ public class InvoiceService {
     existingInvoice.setStatus(invoiceDto.getStatus());
 
     try {
-      existingInvoice = invoiceDao.save(existingInvoice);
+      existingInvoice = this.invoiceDao.save(existingInvoice);
       return new InvoiceDto(existingInvoice);
 
     } catch (Exception e) {
-      throw new InvoiceSaveException("Error saving customer: Unable to save customer information", e);
+      throw new SaveException(saveError, e);
     }
   }
 
   @Transactional
   public InvoiceDto newInvoice(@NonNull Long customerId, @NonNull InvoiceDto newInvoiceDto) {
 
-    Customer customer = customerDao.findById(customerId)
+    Customer customer = this.customerDao.findById(customerId)
         .orElseThrow(() -> new RuntimeException("Customer Id" + customerId + notFound));
 
-    Invoice invoice = convertToEntityInvoice(newInvoiceDto);
+    Invoice invoice = this.conversionService.convert(newInvoiceDto, Invoice.class);
+
+    if (invoice == null || customer == null) {
+      throw new SaveException(saveError);
+    }
     invoice.setCustomer(customer);
 
     try {
-      invoice = invoiceDao.save(invoice);
-      return new InvoiceDto(invoice);
+      invoice = this.invoiceDao.save(invoice);
+      return this.conversionService.convert(invoice, InvoiceDto.class);
+
     } catch (Exception e) {
-      throw new InvoiceSaveException("Error saving customer: Unable to save customer information", e);
+      throw new SaveException(saveError, e);
     }
   }
 
   @Transactional
   public void deleteInvoice(@NonNull Long id) {
-    invoiceDao.deleteById(id);
+    this.invoiceDao.deleteById(id);
   }
 
   public Page<Invoice> findAll(Pageable pageable) {
     throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-  }
-
-  private Invoice convertToEntityInvoice(InvoiceDto invoiceDto) {
-    Invoice invoice = new Invoice();
-    invoice.setAmount(invoiceDto.getAmount());
-    invoice.setStatus(invoiceDto.getStatus());
-    invoice.setObservation(invoiceDto.getObservation());
-    invoice.setDescription(invoiceDto.getDescription());
-
-    return invoice;
-
   }
 }

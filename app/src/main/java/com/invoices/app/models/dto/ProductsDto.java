@@ -4,9 +4,15 @@ import java.util.Date;
 
 import com.invoices.app.models.entities.Product;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductsDto {
 
   private Long id;

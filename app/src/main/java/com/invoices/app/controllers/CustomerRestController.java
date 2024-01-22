@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.invoices.app.models.dto.CustomerDto;
-import com.invoices.app.models.dto.CustomersWithoutInvoices;
+import com.invoices.app.models.dto.CustomersWithoutInvoicesDto;
 import com.invoices.app.models.services.CustomerService;
 
 import jakarta.validation.Valid;
@@ -34,8 +34,8 @@ public class CustomerRestController {
 
   @GetMapping
   @Cacheable("customers")
-  public ResponseEntity<List<CustomersWithoutInvoices>> getAllCustomersWithoutInvoices() {
-    List<CustomersWithoutInvoices> customersWithoutInvoicesDto = customerService.findAllCustomersWithoutInvoices();
+  public ResponseEntity<List<CustomersWithoutInvoicesDto>> getAllCustomersWithoutInvoices() {
+    List<CustomersWithoutInvoicesDto> customersWithoutInvoicesDto = customerService.findAllCustomersWithoutInvoices();
     return customersWithoutInvoicesDto.isEmpty() ? ResponseEntity.noContent().build()
         : ResponseEntity
             .ok(customersWithoutInvoicesDto);
@@ -48,16 +48,16 @@ public class CustomerRestController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<CustomersWithoutInvoices> updateCustomer(@NonNull @PathVariable Long id,
-      @NonNull @Valid @RequestBody CustomersWithoutInvoices customerNotInvoicesDto) {
+  public ResponseEntity<CustomersWithoutInvoicesDto> updateCustomer(@NonNull @PathVariable Long id,
+      @NonNull @Valid @RequestBody CustomersWithoutInvoicesDto customerNotInvoicesDto) {
 
-    CustomersWithoutInvoices updatedCustomer = customerService.updateCustomer(id, customerNotInvoicesDto);
+    CustomersWithoutInvoicesDto updatedCustomer = customerService.updateCustomer(id, customerNotInvoicesDto);
     return ResponseEntity.ok(updatedCustomer);
   }
 
   @PostMapping()
-  public ResponseEntity<CustomersWithoutInvoices> newCustomer(
-      @Valid @NonNull @RequestBody CustomersWithoutInvoices newCustomer) {
+  public ResponseEntity<CustomersWithoutInvoicesDto> newCustomer(
+      @Valid @NonNull @RequestBody CustomersWithoutInvoicesDto newCustomer) {
     customerService.newCustomer(newCustomer);
     return ResponseEntity.ok(newCustomer);
   }

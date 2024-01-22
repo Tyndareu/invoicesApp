@@ -4,10 +4,16 @@ import java.util.Date;
 
 import com.invoices.app.models.entities.Customer;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class CustomersWithoutInvoices {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CustomersWithoutInvoicesDto {
 
   private Long id;
   private String name;
@@ -22,10 +28,7 @@ public class CustomersWithoutInvoices {
   private String zip;
   private Date createAt;
 
-  public CustomersWithoutInvoices() {
-  }
-
-  public CustomersWithoutInvoices(Customer customer) {
+  public CustomersWithoutInvoicesDto(Customer customer) {
     this.id = customer.getId();
     this.name = customer.getName();
     this.lastName = customer.getLastName();
@@ -40,7 +43,7 @@ public class CustomersWithoutInvoices {
     this.createAt = customer.getCreateAt();
   }
 
-  public CustomersWithoutInvoices(CustomerDto customerDto) {
+  public CustomersWithoutInvoicesDto(CustomerDto customerDto) {
     this.id = customerDto.getId();
     this.name = customerDto.getName();
     this.lastName = customerDto.getLastName();
