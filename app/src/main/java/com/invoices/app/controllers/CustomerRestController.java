@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.invoices.app.models.dto.CustomerDto;
 import com.invoices.app.models.dto.CustomersWithoutInvoicesDto;
-import com.invoices.app.models.services.CustomerService;
+import com.invoices.app.services.CustomerService;
 
 import jakarta.validation.Valid;
 

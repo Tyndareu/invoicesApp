@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.invoices.app.models.dto.InvoiceItemDto;
-import com.invoices.app.models.services.InvoiceItemService;
+import com.invoices.app.services.InvoiceItemService;
 
 import jakarta.validation.Valid;
 

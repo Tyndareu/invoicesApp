@@ -1,4 +1,4 @@
-package com.invoices.app.models.services;
+package com.invoices.app.services;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import com.invoices.app.models.dao.IInvoiceDao;
 import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.entities.Customer;
 import com.invoices.app.models.entities.Invoice;
-import com.invoices.app.models.services.exceptions.NotFoundException;
-import com.invoices.app.models.services.exceptions.SaveException;
+import com.invoices.app.services.exceptions.NotFoundException;
+import com.invoices.app.services.exceptions.SaveException;
 
 import lombok.RequiredArgsConstructor;
 

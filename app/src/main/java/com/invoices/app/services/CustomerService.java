@@ -1,4 +1,4 @@
-package com.invoices.app.models.services;
+package com.invoices.app.services;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import com.invoices.app.models.dao.ICustomerDao;
 import com.invoices.app.models.dto.CustomerDto;
 import com.invoices.app.models.dto.CustomersWithoutInvoicesDto;
 import com.invoices.app.models.entities.Customer;
-import com.invoices.app.models.services.exceptions.NotFoundException;
-import com.invoices.app.models.services.exceptions.SaveException;
+import com.invoices.app.services.exceptions.NotFoundException;
+import com.invoices.app.services.exceptions.SaveException;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

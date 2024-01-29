@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.invoices.app.models.dto.InvoiceDto;
-import com.invoices.app.models.services.InvoiceService;
+import com.invoices.app.services.InvoiceService;
 
 import jakarta.validation.Valid;
 

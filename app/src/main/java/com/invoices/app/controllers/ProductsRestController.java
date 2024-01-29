@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.invoices.app.models.dto.ProductDto;
-import com.invoices.app.models.services.ProductService;
+import com.invoices.app.services.ProductService;
 
 @RestController
 @CrossOrigin("http://localhost:4200")

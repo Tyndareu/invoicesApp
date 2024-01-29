@@ -1,4 +1,4 @@
-package com.invoices.app.models.services;
+package com.invoices.app.services;
 
 import org.springframework.core.convert.ConversionService;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.invoices.app.models.dao.IInvoiceItemDao;
 import com.invoices.app.models.dto.InvoiceItemDto;
 import com.invoices.app.models.entities.InvoiceItem;
-import com.invoices.app.models.services.exceptions.NotFoundException;
-import com.invoices.app.models.services.exceptions.SaveException;
+import com.invoices.app.services.exceptions.NotFoundException;
+import com.invoices.app.services.exceptions.SaveException;
 
 import lombok.RequiredArgsConstructor;
 

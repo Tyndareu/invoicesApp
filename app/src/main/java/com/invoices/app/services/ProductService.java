@@ -1,4 +1,4 @@
-package com.invoices.app.models.services;
+package com.invoices.app.services;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.invoices.app.models.dao.IProductDao;
 import com.invoices.app.models.dto.ProductDto;
 import com.invoices.app.models.entities.Product;
-import com.invoices.app.models.services.exceptions.NotFoundException;
-import com.invoices.app.models.services.exceptions.SaveException;
+import com.invoices.app.services.exceptions.NotFoundException;
+import com.invoices.app.services.exceptions.SaveException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +38,7 @@ public class ProductService {
   public ProductDto findProductById(@NonNull Long id) {
     Product product = this.productDao.findById(id)
         .orElseThrow(() -> new NotFoundException("Product with ID " + id + notFound));
-    return new ProductDto(product);
+    return this.conversionService.convert(product, ProductDto.class);
   }
 
   @Transactional
@@ -57,7 +57,7 @@ public class ProductService {
       throw new SaveException(saveError, e);
     }
 
-    return new ProductDto(existingProduct);
+    return this.conversionService.convert(existingProduct, ProductDto.class);
   }
 
   @Transactional
