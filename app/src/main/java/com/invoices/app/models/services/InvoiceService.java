@@ -43,7 +43,7 @@ public class InvoiceService {
   public InvoiceDto findInvoiceById(@NonNull Long id) {
     Invoice invoice = this.invoiceDao.findById(id)
         .orElseThrow(() -> new NotFoundException(invoiceId + id + notFound));
-    return new InvoiceDto(invoice);
+    return this.conversionService.convert(invoice, InvoiceDto.class);
   }
 
   @Transactional
@@ -58,7 +58,7 @@ public class InvoiceService {
 
     try {
       existingInvoice = this.invoiceDao.save(existingInvoice);
-      return new InvoiceDto(existingInvoice);
+      return this.conversionService.convert(existingInvoice, InvoiceDto.class);
 
     } catch (Exception e) {
       throw new SaveException(saveError, e);

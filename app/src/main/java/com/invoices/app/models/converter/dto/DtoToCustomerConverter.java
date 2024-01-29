@@ -1,9 +1,9 @@
 package com.invoices.app.models.converter.dto;
 
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import org.springframework.core.convert.converter.Converter;
 import com.invoices.app.models.dto.CustomerDto;
 import com.invoices.app.models.entities.Customer;
 

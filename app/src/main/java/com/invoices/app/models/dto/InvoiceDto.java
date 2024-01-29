@@ -1,5 +1,7 @@
 package com.invoices.app.models.dto;
 
+import java.util.List;
+
 import com.invoices.app.models.entities.Invoice;
 
 import lombok.AllArgsConstructor;
@@ -19,15 +21,16 @@ public class InvoiceDto {
   private Boolean status;
   private String createAt;
   private CustomersWithoutInvoicesDto customer;
+  private List<InvoiceItemDto> items;
 
   public InvoiceDto(Invoice invoice) {
     this.id = invoice.getId();
     this.description = invoice.getDescription();
     this.observation = invoice.getObservation();
-    this.amount = invoice.getAmount();
+    this.amount = invoice.calculateTotal();
     this.status = invoice.getStatus();
     this.createAt = invoice.getCreateAt().toString();
     this.customer = new CustomersWithoutInvoicesDto(invoice.getCustomer());
+    this.items = invoice.getItems().stream().map(InvoiceItemDto::new).toList();
   }
-
 }

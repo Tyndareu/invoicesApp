@@ -13,7 +13,8 @@
     },
     "java.debug.settings.onBuildFailureProceed": true,
     "cSpell.words": [
-        "Dtos"
+        "Dtos",
+        "invoiceitem"
     ],
     "files.autoSave": "onFocusChange",
     "editor.formatOnSave": true,

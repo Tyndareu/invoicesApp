@@ -42,19 +42,4 @@ public class CustomersWithoutInvoicesDto {
     this.zip = customer.getZip();
     this.createAt = customer.getCreateAt();
   }
-
-  public CustomersWithoutInvoicesDto(CustomerDto customerDto) {
-    this.id = customerDto.getId();
-    this.name = customerDto.getName();
-    this.lastName = customerDto.getLastName();
-    this.address = customerDto.getAddress();
-    this.phone = customerDto.getPhone();
-    this.email = customerDto.getEmail();
-    this.nit = customerDto.getNit();
-    this.city = customerDto.getCity();
-    this.state = customerDto.getState();
-    this.country = customerDto.getCountry();
-    this.zip = customerDto.getZip();
-    this.createAt = customerDto.getCreateAt();
-  }
 }

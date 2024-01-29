@@ -71,8 +71,10 @@ INSERT INTO products (name, price, created_at) VALUES('Yellow gloves', 1200, NOW
 /* Create some invoices */
 INSERT INTO invoices (description, observation, customer_id, create_at) VALUES('Shirt purchase invoice',null, 1, NOW());
 INSERT INTO invoices (description,observation, customer_id, create_at) VALUES('Pants purchase invoice','Out of season', 1, NOW());
--- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(1,1,1);
--- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(2,1,4);
--- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(1,1,5);
--- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(1,1,7);
--- INSERT INTO invoices_items (quantity, bill_id, product_id) VALUES(3,2,2);
+/* Create Invoice Items*/
+INSERT INTO invoice_items (quantity, invoice_id, product_id, price, discount) VALUES(1,1,1,100,10);
+INSERT INTO invoice_items (quantity, invoice_id, product_id, price, discount) VALUES(4,1,2,200,20);
+-- INSERT INTO invoices_items (quantity, invoice_id, product_id) VALUES(2,1,4);
+-- INSERT INTO invoices_items (quantity, invoice_id, product_id) VALUES(1,1,5);
+-- INSERT INTO invoices_items (quantity, invoice_id, product_id) VALUES(1,1,7);
+-- INSERT INTO invoices_items (quantity, invoice_id, product_id) VALUES(3,2,2);
