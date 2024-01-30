@@ -30,7 +30,7 @@ public class ProductService {
   public List<ProductDto> findAllProducts() {
     return this.productDao.findAll()
         .stream()
-        .map(ProductDto::new)
+        .map(product -> this.conversionService.convert(product, ProductDto.class))
         .toList();
   }
 

@@ -12,12 +12,14 @@ public class InvoiceItemToDtoInvoiceItem implements Converter<InvoiceItem, Invoi
 
   @Override
   public InvoiceItemDto convert(@NonNull InvoiceItem invoiceItem) {
-    return new InvoiceItemDto(
-        invoiceItem.getId(),
-        invoiceItem.getProduct(),
-        invoiceItem.getPrice(),
-        invoiceItem.getDiscount(),
-        invoiceItem.getQuantity(),
-        invoiceItem.calculateTotal());
+    // BigDecimal calculateTotal = invoiceItem.calculateTotal();
+    return InvoiceItemDto.builder()
+        .id(invoiceItem.getId())
+        .product(invoiceItem.getProduct())
+        .price(invoiceItem.getPrice())
+        .discount(invoiceItem.getDiscount())
+        .quantity(invoiceItem.getQuantity())
+        // .total(calculateTotal)
+        .build();
   }
 }

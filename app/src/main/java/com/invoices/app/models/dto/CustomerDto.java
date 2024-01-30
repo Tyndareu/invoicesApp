@@ -2,7 +2,6 @@ package com.invoices.app.models.dto;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.invoices.app.models.entities.Customer;
 
@@ -46,6 +45,6 @@ public class CustomerDto {
     this.invoices = customer.getInvoices()
         .stream()
         .map(InvoiceDto::new)
-        .collect(Collectors.toList());
+       .toList();
   }
 }

@@ -35,7 +35,7 @@ public class InvoiceService {
   public List<InvoiceDto> findAllInvoices() {
     return this.invoiceDao.findAll()
         .stream()
-        .map(InvoiceDto::new)
+        .map(invoice -> this.conversionService.convert(invoice, InvoiceDto.class))
         .toList();
   }
 

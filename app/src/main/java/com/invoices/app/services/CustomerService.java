@@ -29,8 +29,7 @@ public class CustomerService {
   public List<CustomersWithoutInvoicesDto> findAllCustomers() {
     return this.customerDao.findAll()
         .stream()
-        .map(
-            CustomersWithoutInvoicesDto::new)
+        .map(customer -> conversionService.convert(customer, CustomersWithoutInvoicesDto.class))
         .toList();
   }
 
