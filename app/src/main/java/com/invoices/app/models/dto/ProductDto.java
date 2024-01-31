@@ -2,8 +2,6 @@ package com.invoices.app.models.dto;
 
 import java.util.Date;
 
-import com.invoices.app.models.entities.Product;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,13 +19,13 @@ public class ProductDto {
   private Double price;
   private Date createdAt;
 
-  public ProductDto(Product product) {
-    this.id = product.getId();
-    this.name = product.getName();
-    this.description = product.getDescription();
-    this.price = product.getPrice();
-    this.createdAt = product.getCreatedAt();
+  // public ProductDto(Product product) {
+  // this.id = product.getId();
+  // this.name = product.getName();
+  // this.description = product.getDescription();
+  // this.price = product.getPrice();
+  // this.createdAt = product.getCreatedAt();
 
-  }
+  // }
 
 }

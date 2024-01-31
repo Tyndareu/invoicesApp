@@ -44,7 +44,7 @@ public class Invoice {
 
   private Boolean status;
 
-  @Column(name = "create_at")
+  @Column(name = "created_at")
   @Temporal(TemporalType.DATE)
   private Date createAt;
 

@@ -25,13 +25,13 @@ public class InvoiceItemDto {
   private BigDecimal total;
   private Invoice invoice;
 
-  public InvoiceItemDto(InvoiceItem invoiceItem) {
-    this.id = invoiceItem.getId();
-    this.product = invoiceItem.getProduct();
-    this.price = invoiceItem.getPrice();
-    this.quantity = invoiceItem.getQuantity();
-    this.discount = invoiceItem.getDiscount();
-    this.total = invoiceItem.calculateTotal();
-  }
+  // public InvoiceItemDto(InvoiceItem invoiceItem) {
+  // this.id = invoiceItem.getId();
+  // this.product = invoiceItem.getProduct();
+  // this.price = invoiceItem.getPrice();
+  // this.quantity = invoiceItem.getQuantity();
+  // this.discount = invoiceItem.getDiscount();
+  // this.total = invoiceItem.calculateTotal();
+  // }
 
 }

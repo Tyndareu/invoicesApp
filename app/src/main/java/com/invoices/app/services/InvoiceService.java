@@ -9,11 +9,11 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.invoices.app.models.dao.ICustomerDao;
-import com.invoices.app.models.dao.IInvoiceDao;
 import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.entities.Customer;
 import com.invoices.app.models.entities.Invoice;
+import com.invoices.app.models.dao.ICustomerDao;
+import com.invoices.app.models.dao.InvoiceRepository;
 import com.invoices.app.services.exceptions.NotFoundException;
 import com.invoices.app.services.exceptions.SaveException;
 
@@ -27,13 +27,13 @@ public class InvoiceService {
   private static final String invoiceId = "Invoice with ID ";
   private static final String saveError = "Error saving customer: Unable to save customer information";
 
-  private final IInvoiceDao invoiceDao;
+  private final InvoiceRepository invoiceRepository;
   private final ICustomerDao customerDao;
   private final ConversionService conversionService;
 
   @Transactional(readOnly = true)
   public List<InvoiceDto> findAllInvoices() {
-    return this.invoiceDao.findAll()
+    return this.invoiceRepository.findAll()
         .stream()
         .map(invoice -> this.conversionService.convert(invoice, InvoiceDto.class))
         .toList();
@@ -41,14 +41,15 @@ public class InvoiceService {
 
   @Transactional(readOnly = true)
   public InvoiceDto findInvoiceById(@NonNull Long id) {
-    Invoice invoice = this.invoiceDao.findById(id)
+    Invoice invoice = this.invoiceRepository.findById(id)
         .orElseThrow(() -> new NotFoundException(invoiceId + id + notFound));
+
     return this.conversionService.convert(invoice, InvoiceDto.class);
   }
 
   @Transactional
   public InvoiceDto updateInvoice(@NonNull Long id, @NonNull InvoiceDto invoiceDto) {
-    Invoice existingInvoice = this.invoiceDao.findById(id)
+    Invoice existingInvoice = this.invoiceRepository.findById(id)
         .orElseThrow(() -> new NotFoundException(invoiceId + id + notFound));
 
     existingInvoice.setDescription(invoiceDto.getDescription());
@@ -57,7 +58,7 @@ public class InvoiceService {
     existingInvoice.setStatus(invoiceDto.getStatus());
 
     try {
-      existingInvoice = this.invoiceDao.save(existingInvoice);
+      existingInvoice = this.invoiceRepository.save(existingInvoice);
       return this.conversionService.convert(existingInvoice, InvoiceDto.class);
 
     } catch (Exception e) {
@@ -79,7 +80,7 @@ public class InvoiceService {
     invoice.setCustomer(customer);
 
     try {
-      invoice = this.invoiceDao.save(invoice);
+      invoice = this.invoiceRepository.save(invoice);
       return this.conversionService.convert(invoice, InvoiceDto.class);
 
     } catch (Exception e) {
@@ -89,7 +90,7 @@ public class InvoiceService {
 
   @Transactional
   public void deleteInvoice(@NonNull Long id) {
-    this.invoiceDao.deleteById(id);
+    this.invoiceRepository.deleteById(id);
   }
 
   public Page<Invoice> findAll(Pageable pageable) {

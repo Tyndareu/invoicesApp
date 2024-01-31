@@ -12,12 +12,14 @@ public class DtoToInvoiceConverter implements Converter<InvoiceDto, Invoice> {
 
   @Override
   public Invoice convert(@NonNull InvoiceDto invoiceDto) {
+
     return Invoice.builder()
         .id(invoiceDto.getId())
         .description(invoiceDto.getDescription())
-        .status(invoiceDto.getStatus())
-        .amount(invoiceDto.getAmount())
         .observation(invoiceDto.getObservation())
+        .amount(invoiceDto.getAmount())
+        .status(invoiceDto.getStatus())
+        .createAt(invoiceDto.getCreateAt())
         .build();
   }
 

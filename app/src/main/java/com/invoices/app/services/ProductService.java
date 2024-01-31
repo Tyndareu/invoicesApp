@@ -8,9 +8,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.invoices.app.models.dao.IProductDao;
 import com.invoices.app.models.dto.ProductDto;
 import com.invoices.app.models.entities.Product;
+import com.invoices.app.models.dao.IProductDao;
 import com.invoices.app.services.exceptions.NotFoundException;
 import com.invoices.app.services.exceptions.SaveException;
 

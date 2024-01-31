@@ -3,8 +3,6 @@ package com.invoices.app.models.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.invoices.app.models.entities.Customer;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,22 +27,22 @@ public class CustomerDto {
   private Date createAt;
   private List<InvoiceDto> invoices;
 
-  public CustomerDto(Customer customer) {
-    this.id = customer.getId();
-    this.name = customer.getName();
-    this.lastName = customer.getLastName();
-    this.address = customer.getAddress();
-    this.phone = customer.getPhone();
-    this.email = customer.getEmail();
-    this.nit = customer.getNit();
-    this.city = customer.getCity();
-    this.state = customer.getState();
-    this.country = customer.getCountry();
-    this.zip = customer.getZip();
-    this.createAt = customer.getCreateAt();
-    this.invoices = customer.getInvoices()
-        .stream()
-        .map(InvoiceDto::new)
-       .toList();
-  }
+  // public CustomerDto(Customer customer) {
+  // this.id = customer.getId();
+  // this.name = customer.getName();
+  // this.lastName = customer.getLastName();
+  // this.address = customer.getAddress();
+  // this.phone = customer.getPhone();
+  // this.email = customer.getEmail();
+  // this.nit = customer.getNit();
+  // this.city = customer.getCity();
+  // this.state = customer.getState();
+  // this.country = customer.getCountry();
+  // this.zip = customer.getZip();
+  // this.createAt = customer.getCreateAt();
+  // this.invoices = customer.getInvoices()
+  // .stream()
+  // .map(InvoiceDto::new)
+  // .toList();
+  // }
 }
