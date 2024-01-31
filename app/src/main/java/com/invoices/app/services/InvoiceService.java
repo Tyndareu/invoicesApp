@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.entities.Customer;
 import com.invoices.app.models.entities.Invoice;
-import com.invoices.app.models.dao.ICustomerDao;
+import com.invoices.app.models.dao.CustomerRepository;
 import com.invoices.app.models.dao.InvoiceRepository;
 import com.invoices.app.services.exceptions.NotFoundException;
 import com.invoices.app.services.exceptions.SaveException;
@@ -28,7 +28,7 @@ public class InvoiceService {
   private static final String saveError = "Error saving customer: Unable to save customer information";
 
   private final InvoiceRepository invoiceRepository;
-  private final ICustomerDao customerDao;
+  private final CustomerRepository customerRepository;
   private final ConversionService conversionService;
 
   @Transactional(readOnly = true)
@@ -69,7 +69,7 @@ public class InvoiceService {
   @Transactional
   public InvoiceDto newInvoice(@NonNull Long customerId, @NonNull InvoiceDto newInvoiceDto) {
 
-    Customer customer = this.customerDao.findById(customerId)
+    Customer customer = this.customerRepository.findById(customerId)
         .orElseThrow(() -> new RuntimeException("Customer Id" + customerId + notFound));
 
     Invoice invoice = this.conversionService.convert(newInvoiceDto, Invoice.class);

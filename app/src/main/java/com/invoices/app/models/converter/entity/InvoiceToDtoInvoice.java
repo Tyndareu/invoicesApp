@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import com.invoices.app.models.dto.InvoiceDto;
+import com.invoices.app.models.dto.InvoiceItemDto;
 import com.invoices.app.models.entities.Invoice;
 
 @Component
@@ -12,7 +13,6 @@ public class InvoiceToDtoInvoice implements Converter<Invoice, InvoiceDto> {
 
   @Override
   public InvoiceDto convert(@NonNull Invoice invoice) {
-
     return InvoiceDto.builder()
         .id(invoice.getId())
         .description(invoice.getDescription())
@@ -20,12 +20,17 @@ public class InvoiceToDtoInvoice implements Converter<Invoice, InvoiceDto> {
         .amount(invoice.getAmount())
         .status(invoice.getStatus())
         .createAt(invoice.getCreateAt())
-        // .customer(invoice.getCustomer())
-        // .items(invoice.getItems()
-        // .stream()
-        // .map(invoiceItem -> this.conversionService
-        // .convert(invoiceItem, InvoiceItemDto.class))
-        // .toList())
+        .items(invoice.getItems().stream()
+            .map(invoiceItem -> InvoiceItemDto.builder()
+                .id(invoiceItem.getId())
+                .product(invoiceItem.getProduct())
+                .price(invoiceItem.getPrice())
+                .discount(invoiceItem.getDiscount())
+                .quantity(invoiceItem.getQuantity())
+                .amount(invoice.calculateTotal())
+                .build())
+            .toList())
         .build();
   }
+
 }

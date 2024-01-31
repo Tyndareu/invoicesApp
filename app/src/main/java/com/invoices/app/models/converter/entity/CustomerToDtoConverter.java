@@ -4,15 +4,16 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import com.invoices.app.models.dto.CustomersWithoutInvoicesDto;
+import com.invoices.app.models.dto.CustomerDto;
+import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.entities.Customer;
 
 @Component
-public class CustomersWithoutInvoicesToDtoConverter implements Converter<Customer, CustomersWithoutInvoicesDto> {
+public class CustomerToDtoConverter implements Converter<Customer, CustomerDto> {
 
   @Override
-  public CustomersWithoutInvoicesDto convert(@NonNull Customer customer) {
-    return CustomersWithoutInvoicesDto.builder()
+  public CustomerDto convert(@NonNull Customer customer) {
+    return CustomerDto.builder()
         .id(customer.getId())
         .name(customer.getName())
         .lastName(customer.getLastName())
@@ -25,6 +26,17 @@ public class CustomersWithoutInvoicesToDtoConverter implements Converter<Custome
         .country(customer.getCountry())
         .zip(customer.getZip())
         .createAt(customer.getCreateAt())
+        .invoices(customer.getInvoices()
+            .stream()
+            .map(invoice -> InvoiceDto.builder()
+                .id(invoice.getId())
+                .description(invoice.getDescription())
+                .observation(invoice.getObservation())
+                .amount(invoice.getAmount())
+                .status(invoice.getStatus())
+                .createAt(invoice.getCreateAt())
+                .build())
+            .toList())
         .build();
   }
 

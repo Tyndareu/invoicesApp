@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.invoices.app.models.entities.InvoiceItem;
 
-public interface IInvoiceItemDao extends JpaRepository<InvoiceItem, Long> {
+public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Long> {
 
   @Query("SELECT i FROM InvoiceItem i WHERE i.product.id = :productId")
   List<InvoiceItem> findByProductId(@Param("productId") Long productId);

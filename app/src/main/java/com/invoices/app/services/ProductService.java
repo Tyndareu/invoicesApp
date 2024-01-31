@@ -8,7 +8,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.invoices.app.models.dao.IInvoiceItemDao;
+import com.invoices.app.models.dao.InvoiceItemRepository;
 import com.invoices.app.models.dao.ProductRepository;
 import com.invoices.app.models.dto.ProductDto;
 import com.invoices.app.models.entities.InvoiceItem;
@@ -29,7 +29,7 @@ public class ProductService {
 
   private final ProductRepository productRepository;
   private final ConversionService conversionService;
-  private final IInvoiceItemDao iInvoiceItemDao;
+  private final InvoiceItemRepository invoiceItemRepository;
 
   @Transactional(readOnly = true)
   public List<ProductDto> findAllProducts() {
@@ -83,7 +83,7 @@ public class ProductService {
   }
 
   public void deleteProduct(@NonNull Long id) {
-    List<InvoiceItem> invoiceItems = this.iInvoiceItemDao.findByProductId(id);
+    List<InvoiceItem> invoiceItems = this.invoiceItemRepository.findByProductId(id);
     if (!invoiceItems.isEmpty()) {
       throw new ProductLinkedToInvoice("Product with ID " + id + " cannot be deleted because it is linked to "
           + invoiceItems.size() + " invoice items");

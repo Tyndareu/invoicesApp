@@ -21,6 +21,7 @@ public class InvoiceItemDto {
   private Integer quantity;
   private BigDecimal total;
   private Invoice invoice;
+  private Double amount;
 
   // public InvoiceItemDto(InvoiceItem invoiceItem) {
   // this.id = invoiceItem.getId();

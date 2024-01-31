@@ -10,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.invoices.app.models.dto.CustomerDto;
 import com.invoices.app.models.dto.CustomersWithoutInvoicesDto;
+import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.entities.Customer;
-import com.invoices.app.models.dao.ICustomerDao;
+import com.invoices.app.models.dao.CustomerRepository;
 import com.invoices.app.services.exceptions.NotFoundException;
 import com.invoices.app.services.exceptions.SaveException;
 
@@ -22,26 +23,36 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomerService {
 
-  private final ICustomerDao customerDao;
+  private final CustomerRepository customerRepository;
   private final ConversionService conversionService;
 
   @Transactional(readOnly = true)
   public List<CustomersWithoutInvoicesDto> findAllCustomers() {
-    return this.customerDao.findAll()
+    return this.customerRepository.findAll()
         .stream()
         .map(customer -> conversionService.convert(customer, CustomersWithoutInvoicesDto.class))
         .toList();
   }
 
+  // @Transactional(readOnly = true)
+  // public List<CustomersWithoutInvoicesDto> findAllCustomersWithoutInvoices() {
+  // return this.customerRepository.findAllCustomersWithoutInvoicesDto();
+  // }
+
   @Transactional(readOnly = true)
   public List<CustomersWithoutInvoicesDto> findAllCustomersWithoutInvoices() {
-    return this.customerDao.findAllCustomersWithoutInvoicesDto();
+    return this.customerRepository.findAll()
+        .stream()
+        .map(customer -> this.conversionService.convert(customer, CustomersWithoutInvoicesDto.class))
+        .toList();
   }
 
   @Transactional(readOnly = true)
   public CustomerDto findCustomerById(@NonNull Long id) {
-    Customer customer = this.customerDao.findById(id)
+    Customer customer = this.customerRepository.findById(id)
         .orElseThrow(() -> new NotFoundException("Customer with ID " + id + " not found"));
+
+    System.out.println("%%%%" + customer);
 
     return this.conversionService.convert(customer, CustomerDto.class);
   }
@@ -50,7 +61,7 @@ public class CustomerService {
   public CustomersWithoutInvoicesDto updateCustomer(@NonNull Long id,
       @NonNull CustomersWithoutInvoicesDto customersWithoutInvoices) {
 
-    Customer existingCustomer = this.customerDao.findById(id)
+    Customer existingCustomer = this.customerRepository.findById(id)
         .orElseThrow(
             () -> new EntityNotFoundException("Customer not found with ID: " + id));
 
@@ -66,7 +77,7 @@ public class CustomerService {
     existingCustomer.setZip(customersWithoutInvoices.getZip());
 
     try {
-      existingCustomer = this.customerDao.save(existingCustomer);
+      existingCustomer = this.customerRepository.save(existingCustomer);
 
       return this.conversionService.convert(existingCustomer, CustomersWithoutInvoicesDto.class);
 
@@ -85,7 +96,7 @@ public class CustomerService {
     }
 
     try {
-      customer = this.customerDao.save(customer);
+      customer = this.customerRepository.save(customer);
 
       return this.conversionService.convert(customer, CustomersWithoutInvoicesDto.class);
 
@@ -97,7 +108,7 @@ public class CustomerService {
 
   public void deleteCustomer(@NonNull Long id) {
 
-    this.customerDao.deleteById(id);
+    this.customerRepository.deleteById(id);
   }
 
 }
