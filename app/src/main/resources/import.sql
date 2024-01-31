@@ -8,7 +8,7 @@
 -- INSERT INTO regions (id, name) VALUES (7, 'North America');
 -- INSERT INTO regions (id, name) VALUES (8, 'South America');
 -- INSERT INTO regions (id, name) VALUES (9, 'Central America');
-INSERT INTO customers (name, last_name, email, created_at) VALUES('Andrés', 'Guzmán', 'profesor@bolsadeideas.com', '2018-01-01');
+INSERT INTO customers (name, last_name, email, created_at) VALUES('Juan', 'Matamoros', 'profesor@bolsadeideas.com', '2018-01-01');
 INSERT INTO customers (name, last_name, email, created_at) VALUES('Mr. John', 'Doe', 'john.doe@gmail.com', '2018-01-02');
 INSERT INTO customers (name, last_name, email, created_at) VALUES('Linus', 'Torvalds', 'linus.torvalds@gmail.com', '2018-01-03');
 INSERT INTO customers (name, last_name, email, created_at) VALUES('Rasmus', 'Lerdorf', 'rasmus.lerdorf@gmail.com', '2018-01-04');

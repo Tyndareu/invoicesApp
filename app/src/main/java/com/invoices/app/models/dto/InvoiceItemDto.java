@@ -2,6 +2,7 @@ package com.invoices.app.models.dto;
 
 import java.math.BigDecimal;
 
+import com.invoices.app.models.entities.Invoice;
 import com.invoices.app.models.entities.InvoiceItem;
 import com.invoices.app.models.entities.Product;
 
@@ -22,6 +23,7 @@ public class InvoiceItemDto {
   private BigDecimal discount;
   private Integer quantity;
   private BigDecimal total;
+  private Invoice invoice;
 
   public InvoiceItemDto(InvoiceItem invoiceItem) {
     this.id = invoiceItem.getId();

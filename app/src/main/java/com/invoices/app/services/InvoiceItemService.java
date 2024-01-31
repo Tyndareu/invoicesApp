@@ -46,19 +46,23 @@ public class InvoiceItemService {
 
   @Transactional
   public InvoiceItemDto newInvoiceItem(@NonNull InvoiceItemDto invoiceItemDto) {
+
     InvoiceItem invoiceItem = this.conversionService.convert(invoiceItemDto, InvoiceItem.class);
 
     if (invoiceItem == null) {
       throw new SaveException(errorSaving, null);
     }
-
     try {
       invoiceItem = this.invoiceItemDao.save(invoiceItem);
       return this.conversionService.convert(invoiceItem, InvoiceItemDto.class);
     } catch (DataIntegrityViolationException e) {
       throw new SaveException(errorSaving, e);
     }
+  }
 
+  @Transactional
+  public void deleteInvoiceItem(@NonNull Long id) {
+    this.invoiceItemDao.deleteById(id);
   }
 
 }

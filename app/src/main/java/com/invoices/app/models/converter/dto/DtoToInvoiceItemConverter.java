@@ -18,6 +18,7 @@ public class DtoToInvoiceItemConverter implements Converter<InvoiceItemDto, Invo
         .discount(dto.getDiscount())
         .quantity(dto.getQuantity())
         .product(dto.getProduct())
+        .invoice(dto.getInvoice())
         .build();
 
   }

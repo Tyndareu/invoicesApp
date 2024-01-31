@@ -3,6 +3,7 @@ package com.invoices.app.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,6 +25,7 @@ public class InvoiceItemController {
 
   public InvoiceItemController(InvoiceItemService invoiceItemService) {
     this.invoiceItemService = invoiceItemService;
+
   }
 
   @PutMapping("{id}")
@@ -40,6 +42,12 @@ public class InvoiceItemController {
 
     InvoiceItemDto newInvoiceItem = this.invoiceItemService.newInvoiceItem(invoiceItemDto);
     return ResponseEntity.ok(newInvoiceItem);
+  }
+
+  @DeleteMapping("{id}")
+  public ResponseEntity<Void> deleteInvoiceItem(@NonNull @PathVariable Long id) {
+    this.invoiceItemService.deleteInvoiceItem(id);
+    return ResponseEntity.noContent().build();
   }
 
 }

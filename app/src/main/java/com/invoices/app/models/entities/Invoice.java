@@ -53,7 +53,7 @@ public class Invoice {
   @JoinColumn(name = "customer_id")
   private Customer customer;
 
-  @OneToMany(mappedBy = "invoice", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "invoice", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnoreProperties({ "invoice", "customer" })
   private List<InvoiceItem> items;
 
