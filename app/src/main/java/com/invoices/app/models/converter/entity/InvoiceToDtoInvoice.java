@@ -20,6 +20,12 @@ public class InvoiceToDtoInvoice implements Converter<Invoice, InvoiceDto> {
         .amount(invoice.getAmount())
         .status(invoice.getStatus())
         .createAt(invoice.getCreateAt())
+        // .customer(invoice.getCustomer())
+        // .items(invoice.getItems()
+        // .stream()
+        // .map(invoiceItem -> this.conversionService
+        // .convert(invoiceItem, InvoiceItemDto.class))
+        // .toList())
         .build();
   }
 }

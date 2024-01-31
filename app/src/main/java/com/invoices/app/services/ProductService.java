@@ -8,10 +8,13 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.invoices.app.models.dao.IInvoiceItemDao;
+import com.invoices.app.models.dao.ProductRepository;
 import com.invoices.app.models.dto.ProductDto;
+import com.invoices.app.models.entities.InvoiceItem;
 import com.invoices.app.models.entities.Product;
-import com.invoices.app.models.dao.IProductDao;
 import com.invoices.app.services.exceptions.NotFoundException;
+import com.invoices.app.services.exceptions.ProductLinkedToInvoice;
 import com.invoices.app.services.exceptions.SaveException;
 
 import lombok.RequiredArgsConstructor;
@@ -22,13 +25,15 @@ public class ProductService {
 
   private static final String saveError = "Error saving Product: Unable to save product information";
   private static final String notFound = " not found";
+  private static final String productWithID = "Product with ID ";
 
-  private final IProductDao productDao;
+  private final ProductRepository productRepository;
   private final ConversionService conversionService;
+  private final IInvoiceItemDao iInvoiceItemDao;
 
   @Transactional(readOnly = true)
   public List<ProductDto> findAllProducts() {
-    return this.productDao.findAll()
+    return this.productRepository.findAll()
         .stream()
         .map(product -> this.conversionService.convert(product, ProductDto.class))
         .toList();
@@ -36,15 +41,15 @@ public class ProductService {
 
   @Transactional(readOnly = true)
   public ProductDto findProductById(@NonNull Long id) {
-    Product product = this.productDao.findById(id)
-        .orElseThrow(() -> new NotFoundException("Product with ID " + id + notFound));
+    Product product = this.productRepository.findById(id)
+        .orElseThrow(() -> new NotFoundException(productWithID + id + notFound));
     return this.conversionService.convert(product, ProductDto.class);
   }
 
   @Transactional
   public ProductDto updateProduct(@NonNull Long id, @NonNull ProductDto productDto) {
 
-    Product existingProduct = this.productDao.findById(id)
+    Product existingProduct = this.productRepository.findById(id)
         .orElseThrow(() -> new NotFoundException("Product with ID " + id + notFound));
 
     existingProduct.setName(productDto.getName());
@@ -52,7 +57,7 @@ public class ProductService {
     existingProduct.setPrice(productDto.getPrice());
 
     try {
-      existingProduct = this.productDao.save(existingProduct);
+      existingProduct = this.productRepository.save(existingProduct);
     } catch (DataIntegrityViolationException e) {
       throw new SaveException(saveError, e);
     }
@@ -69,7 +74,7 @@ public class ProductService {
     }
 
     try {
-      product = this.productDao.save(product);
+      product = this.productRepository.save(product);
       return this.conversionService.convert(product, ProductDto.class);
 
     } catch (DataIntegrityViolationException e) {
@@ -78,6 +83,11 @@ public class ProductService {
   }
 
   public void deleteProduct(@NonNull Long id) {
-    this.productDao.deleteById(id);
+    List<InvoiceItem> invoiceItems = this.iInvoiceItemDao.findByProductId(id);
+    if (!invoiceItems.isEmpty()) {
+      throw new ProductLinkedToInvoice("Product with ID " + id + " cannot be deleted because it is linked to "
+          + invoiceItems.size() + " invoice items");
+    }
+    this.productRepository.deleteById(id);
   }
 }

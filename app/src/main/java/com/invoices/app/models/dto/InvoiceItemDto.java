@@ -3,18 +3,15 @@ package com.invoices.app.models.dto;
 import java.math.BigDecimal;
 
 import com.invoices.app.models.entities.Invoice;
-import com.invoices.app.models.entities.InvoiceItem;
 import com.invoices.app.models.entities.Product;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.extern.jackson.Jacksonized;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@Jacksonized
 public class InvoiceItemDto {
 
   private Long id;

@@ -3,15 +3,13 @@ package com.invoices.app.models.dto;
 import java.util.Date;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.extern.jackson.Jacksonized;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@Jacksonized
 public class CustomerDto {
   private Long id;
   private String name;
