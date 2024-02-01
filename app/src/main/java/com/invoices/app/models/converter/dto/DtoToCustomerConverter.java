@@ -1,6 +1,5 @@
 package com.invoices.app.models.converter.dto;
 
-import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -11,12 +10,6 @@ import com.invoices.app.models.entities.Invoice;
 
 @Component
 public class DtoToCustomerConverter implements Converter<CustomerDto, Customer> {
-
-  private final ConversionService conversionService;
-
-  public DtoToCustomerConverter(ConversionService conversionService) {
-    this.conversionService = conversionService;
-  }
 
   @Override
   public Customer convert(@NonNull CustomerDto customerDto) {
@@ -35,8 +28,13 @@ public class DtoToCustomerConverter implements Converter<CustomerDto, Customer> 
         .createAt(customerDto.getCreateAt())
         .invoices(customerDto.getInvoices()
             .stream()
-            .map(invoiceDto -> this.conversionService.convert(
-                invoiceDto, Invoice.class))
+            .map(invoiceDto -> Invoice.builder()
+                .id(invoiceDto.getId())
+                .description(invoiceDto.getDescription())
+                .observation(invoiceDto.getObservation())
+                .status(invoiceDto.getStatus())
+                .createAt(invoiceDto.getCreateAt())
+                .build())
             .toList())
         .build();
   }

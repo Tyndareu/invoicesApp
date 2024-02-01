@@ -24,23 +24,4 @@ public class CustomerDto {
   private String zip;
   private Date createAt;
   private List<InvoiceDto> invoices;
-
-  // public CustomerDto(Customer customer) {
-  // this.id = customer.getId();
-  // this.name = customer.getName();
-  // this.lastName = customer.getLastName();
-  // this.address = customer.getAddress();
-  // this.phone = customer.getPhone();
-  // this.email = customer.getEmail();
-  // this.nit = customer.getNit();
-  // this.city = customer.getCity();
-  // this.state = customer.getState();
-  // this.country = customer.getCountry();
-  // this.zip = customer.getZip();
-  // this.createAt = customer.getCreateAt();
-  // this.invoices = customer.getInvoices()
-  // .stream()
-  // .map(InvoiceDto::new)
-  // .toList();
-  // }
 }

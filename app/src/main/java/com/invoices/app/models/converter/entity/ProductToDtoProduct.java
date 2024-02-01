@@ -20,6 +20,5 @@ public class ProductToDtoProduct implements Converter<Product, ProductDto> {
         .price(product.getPrice())
         .createdAt(product.getCreatedAt())
         .build();
-
   }
 }

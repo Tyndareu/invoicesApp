@@ -50,7 +50,7 @@ public class ProductService {
   public ProductDto updateProduct(@NonNull Long id, @NonNull ProductDto productDto) {
 
     Product existingProduct = this.productRepository.findById(id)
-        .orElseThrow(() -> new NotFoundException("Product with ID " + id + notFound));
+        .orElseThrow(() -> new NotFoundException(productWithID + id + notFound));
 
     existingProduct.setName(productDto.getName());
     existingProduct.setDescription(productDto.getDescription());
@@ -85,7 +85,7 @@ public class ProductService {
   public void deleteProduct(@NonNull Long id) {
     List<InvoiceItem> invoiceItems = this.invoiceItemRepository.findByProductId(id);
     if (!invoiceItems.isEmpty()) {
-      throw new ProductLinkedToInvoice("Product with ID " + id + " cannot be deleted because it is linked to "
+      throw new ProductLinkedToInvoice(productWithID + id + " cannot be deleted because it is linked to "
           + invoiceItems.size() + " invoice items");
     }
     this.productRepository.deleteById(id);

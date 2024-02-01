@@ -62,9 +62,11 @@ public class Invoice {
 
   public double calculateTotal() {
     double invoiceTotal = 0;
-    for (InvoiceItem item : this.getItems()) {
-      double itemTotal = item.calculateTotal().doubleValue();
-      invoiceTotal += itemTotal;
+    if (items != null) {
+      for (InvoiceItem item : this.getItems()) {
+        double itemTotal = item.calculateTotal().doubleValue();
+        invoiceTotal += itemTotal;
+      }
     }
     return invoiceTotal;
   }

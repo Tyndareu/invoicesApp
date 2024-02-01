@@ -1,5 +1,7 @@
 package com.invoices.app.models.converter.entity;
 
+import java.util.Collections;
+
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -36,7 +38,7 @@ public class InvoiceToDtoInvoice implements Converter<Invoice, InvoiceDto> {
                 .zip(invoice.getCustomer().getZip())
                 .createAt(invoice.getCustomer().getCreateAt())
                 .build())
-        .items(invoice.getItems().stream()
+        .items(invoice.getItems() != null ? invoice.getItems().stream()
             .map(invoiceItem -> InvoiceItemDto.builder()
                 .id(invoiceItem.getId())
                 .product(invoiceItem.getProduct())
@@ -45,7 +47,7 @@ public class InvoiceToDtoInvoice implements Converter<Invoice, InvoiceDto> {
                 .quantity(invoiceItem.getQuantity())
                 .total(invoiceItem.calculateTotal())
                 .build())
-            .toList())
+            .toList() : Collections.emptyList())
         .build();
   }
 

@@ -98,11 +98,9 @@ public class CustomerService {
 
     try {
       customer = this.customerRepository.save(customer);
-
       return this.conversionService.convert(customer, CustomersWithoutInvoicesDto.class);
 
     } catch (DataIntegrityViolationException e) {
-
       throw new SaveException("Error saving customer: Unable to save customer information", e);
     }
   }

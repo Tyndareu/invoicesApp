@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.invoices.app.models.dto.InvoiceDto;
-import com.invoices.app.models.entities.Customer;
 import com.invoices.app.models.entities.Invoice;
-import com.invoices.app.models.repository.CustomerRepository;
 import com.invoices.app.models.repository.InvoiceRepository;
 import com.invoices.app.services.exceptions.NotFoundException;
 import com.invoices.app.services.exceptions.SaveException;
@@ -28,7 +26,6 @@ public class InvoiceService {
   private static final String saveError = "Error saving customer: Unable to save customer information";
 
   private final InvoiceRepository invoiceRepository;
-  private final CustomerRepository customerRepository;
   private final ConversionService conversionService;
 
   @Transactional(readOnly = true)
@@ -66,24 +63,18 @@ public class InvoiceService {
   }
 
   @Transactional
-  public InvoiceDto newInvoice(@NonNull Long customerId, @NonNull InvoiceDto newInvoiceDto) {
-
-    Customer customer = this.customerRepository.findById(customerId)
-        .orElseThrow(() -> new RuntimeException("Customer Id" + customerId + notFound));
-
-    Invoice invoice = this.conversionService.convert(newInvoiceDto, Invoice.class);
-
-    if (invoice == null || customer == null) {
-      throw new SaveException(saveError);
+  public InvoiceDto newInvoice(@NonNull InvoiceDto invoiceDto) {
+    Invoice invoice = this.conversionService.convert(invoiceDto, Invoice.class);
+    if (invoice == null) {
+      throw new SaveException("Error: invoice can't be null");
     }
-    invoice.setCustomer(customer);
 
     try {
       invoice = this.invoiceRepository.save(invoice);
       return this.conversionService.convert(invoice, InvoiceDto.class);
 
     } catch (Exception e) {
-      throw new SaveException(saveError, e);
+      throw new SaveException("save error", e);
     }
   }
 
