@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import com.invoices.app.models.entities.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-  List<Customer> findByLastName(String lastName); // naming convention
 
+  // Query without Invoices
   @Query("SELECT c FROM Customer c")
-  List<Customer> findAllCustomersWithoutInvoicesDto();
+  List<Customer> findAllWithoutInvoices();
 
 }

@@ -8,11 +8,10 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.invoices.app.models.dao.CustomerRepository;
 import com.invoices.app.models.dto.CustomerDto;
 import com.invoices.app.models.dto.CustomersWithoutInvoicesDto;
-import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.entities.Customer;
-import com.invoices.app.models.dao.CustomerRepository;
 import com.invoices.app.services.exceptions.NotFoundException;
 import com.invoices.app.services.exceptions.SaveException;
 
@@ -34,16 +33,20 @@ public class CustomerService {
         .toList();
   }
 
-  // @Transactional(readOnly = true)
-  // public List<CustomersWithoutInvoicesDto> findAllCustomersWithoutInvoices() {
-  // return this.customerRepository.findAllCustomersWithoutInvoicesDto();
-  // }
-
   @Transactional(readOnly = true)
   public List<CustomersWithoutInvoicesDto> findAllCustomersWithoutInvoices() {
-    return this.customerRepository.findAll()
+    return this.customerRepository.findAllWithoutInvoices()
         .stream()
         .map(customer -> this.conversionService.convert(customer, CustomersWithoutInvoicesDto.class))
+        .toList();
+  }
+
+  @Transactional(readOnly = true)
+  public List<CustomerDto> findAllCustomersWithInvoices() {
+    return this.customerRepository.findAll()
+        .stream()
+        .map(customer -> this.conversionService.convert(customer,
+            CustomerDto.class))
         .toList();
   }
 
@@ -51,8 +54,6 @@ public class CustomerService {
   public CustomerDto findCustomerById(@NonNull Long id) {
     Customer customer = this.customerRepository.findById(id)
         .orElseThrow(() -> new NotFoundException("Customer with ID " + id + " not found"));
-
-    System.out.println("%%%%" + customer);
 
     return this.conversionService.convert(customer, CustomerDto.class);
   }

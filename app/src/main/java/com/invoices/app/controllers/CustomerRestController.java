@@ -41,6 +41,15 @@ public class CustomerRestController {
             .ok(customersWithoutInvoicesDto);
   }
 
+  @GetMapping("/with-invoices")
+  @Cacheable("customers")
+  public ResponseEntity<List<CustomerDto>> getAllCustomersWithInvoices() {
+    List<CustomerDto> customersWithoutInvoicesDto = customerService.findAllCustomersWithInvoices();
+    return customersWithoutInvoicesDto.isEmpty() ? ResponseEntity.noContent().build()
+        : ResponseEntity
+            .ok(customersWithoutInvoicesDto);
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<CustomerDto> getCustomerById(@NonNull @PathVariable Long id) {
     CustomerDto customerDto = customerService.findCustomerById(id);
