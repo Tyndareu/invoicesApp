@@ -13,7 +13,6 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 public class InvoiceItemDto {
-
   private Long id;
   private Product product;
   private BigDecimal price;
@@ -22,14 +21,4 @@ public class InvoiceItemDto {
   private BigDecimal total;
   private Invoice invoice;
   private Double amount;
-
-  // public InvoiceItemDto(InvoiceItem invoiceItem) {
-  // this.id = invoiceItem.getId();
-  // this.product = invoiceItem.getProduct();
-  // this.price = invoiceItem.getPrice();
-  // this.quantity = invoiceItem.getQuantity();
-  // this.discount = invoiceItem.getDiscount();
-  // this.total = invoiceItem.calculateTotal();
-  // }
-
 }

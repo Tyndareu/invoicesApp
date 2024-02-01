@@ -32,7 +32,7 @@ public class CustomerToDtoConverter implements Converter<Customer, CustomerDto> 
                 .id(invoice.getId())
                 .description(invoice.getDescription())
                 .observation(invoice.getObservation())
-                .amount(invoice.getAmount())
+                .amount(invoice.calculateTotal())
                 .status(invoice.getStatus())
                 .createAt(invoice.getCreateAt())
                 .build())

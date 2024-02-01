@@ -1,6 +1,5 @@
 package com.invoices.app.models.entities;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -41,8 +40,6 @@ public class Invoice {
 
   private String observation;
 
-  private Double amount;
-
   private Boolean status;
 
   @Column(name = "created_at")
@@ -70,7 +67,6 @@ public class Invoice {
       invoiceTotal += itemTotal;
     }
     return invoiceTotal;
-
   }
 
 }

@@ -17,7 +17,6 @@ public class DtoToInvoiceConverter implements Converter<InvoiceDto, Invoice> {
         .id(invoiceDto.getId())
         .description(invoiceDto.getDescription())
         .observation(invoiceDto.getObservation())
-        .amount(invoiceDto.getAmount())
         .status(invoiceDto.getStatus())
         .createAt(invoiceDto.getCreateAt())
         .build();

@@ -54,7 +54,6 @@ public class InvoiceService {
 
     existingInvoice.setDescription(invoiceDto.getDescription());
     existingInvoice.setObservation(invoiceDto.getObservation());
-    existingInvoice.setAmount(invoiceDto.getAmount());
     existingInvoice.setStatus(invoiceDto.getStatus());
 
     try {

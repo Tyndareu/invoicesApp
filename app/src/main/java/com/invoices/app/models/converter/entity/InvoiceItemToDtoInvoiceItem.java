@@ -1,7 +1,5 @@
 package com.invoices.app.models.converter.entity;
 
-import java.math.BigDecimal;
-
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -14,14 +12,13 @@ public class InvoiceItemToDtoInvoiceItem implements Converter<InvoiceItem, Invoi
 
   @Override
   public InvoiceItemDto convert(@NonNull InvoiceItem invoiceItem) {
-    BigDecimal calculateTotal = invoiceItem.calculateTotal();
     return InvoiceItemDto.builder()
         .id(invoiceItem.getId())
         .product(invoiceItem.getProduct())
         .price(invoiceItem.getPrice())
         .discount(invoiceItem.getDiscount())
         .quantity(invoiceItem.getQuantity())
-        .total(calculateTotal)
+        .total(invoiceItem.calculateTotal())
         .build();
   }
 }

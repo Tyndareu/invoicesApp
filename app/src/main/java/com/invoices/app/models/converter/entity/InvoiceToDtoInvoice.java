@@ -4,6 +4,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
+import com.invoices.app.models.dto.CustomersWithoutInvoicesDto;
 import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.dto.InvoiceItemDto;
 import com.invoices.app.models.entities.Invoice;
@@ -17,9 +18,24 @@ public class InvoiceToDtoInvoice implements Converter<Invoice, InvoiceDto> {
         .id(invoice.getId())
         .description(invoice.getDescription())
         .observation(invoice.getObservation())
-        .amount(invoice.getAmount())
+        .amount(invoice.calculateTotal())
         .status(invoice.getStatus())
         .createAt(invoice.getCreateAt())
+        .customer(
+            CustomersWithoutInvoicesDto.builder()
+                .id(invoice.getCustomer().getId())
+                .name(invoice.getCustomer().getName())
+                .lastName(invoice.getCustomer().getLastName())
+                .address(invoice.getCustomer().getAddress())
+                .phone(invoice.getCustomer().getPhone())
+                .email(invoice.getCustomer().getEmail())
+                .nit(invoice.getCustomer().getNit())
+                .city(invoice.getCustomer().getCity())
+                .state(invoice.getCustomer().getState())
+                .country(invoice.getCustomer().getCountry())
+                .zip(invoice.getCustomer().getZip())
+                .createAt(invoice.getCustomer().getCreateAt())
+                .build())
         .items(invoice.getItems().stream()
             .map(invoiceItem -> InvoiceItemDto.builder()
                 .id(invoiceItem.getId())
@@ -27,7 +43,7 @@ public class InvoiceToDtoInvoice implements Converter<Invoice, InvoiceDto> {
                 .price(invoiceItem.getPrice())
                 .discount(invoiceItem.getDiscount())
                 .quantity(invoiceItem.getQuantity())
-                .amount(invoice.calculateTotal())
+                .total(invoiceItem.calculateTotal())
                 .build())
             .toList())
         .build();

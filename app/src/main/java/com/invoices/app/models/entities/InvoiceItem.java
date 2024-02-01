@@ -41,10 +41,12 @@ public class InvoiceItem {
   private Integer quantity;
 
   public BigDecimal calculateTotal() {
-    BigDecimal subtotal = price.multiply(BigDecimal.valueOf(quantity));
-    BigDecimal discountPercentage = discount.divide(new BigDecimal("100"));
-    BigDecimal discountAmount = subtotal.multiply(discountPercentage);
-    return subtotal.subtract(discountAmount);
+    BigDecimal discountAmount = price.multiply(new BigDecimal(quantity))
+        .multiply(discount)
+        .divide(new BigDecimal("100"));
+
+    return price.multiply(new BigDecimal(quantity))
+        .subtract(discountAmount);
 
   }
 
