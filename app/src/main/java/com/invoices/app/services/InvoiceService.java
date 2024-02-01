@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.invoices.app.models.dto.InvoiceDto;
 import com.invoices.app.models.entities.Customer;
 import com.invoices.app.models.entities.Invoice;
-import com.invoices.app.models.dao.CustomerRepository;
-import com.invoices.app.models.dao.InvoiceRepository;
+import com.invoices.app.models.repository.CustomerRepository;
+import com.invoices.app.models.repository.InvoiceRepository;
 import com.invoices.app.services.exceptions.NotFoundException;
 import com.invoices.app.services.exceptions.SaveException;
 

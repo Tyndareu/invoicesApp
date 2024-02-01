@@ -1,4 +1,4 @@
-package com.invoices.app.models.dao;
+package com.invoices.app.models.repository;
 
 import java.util.List;
 

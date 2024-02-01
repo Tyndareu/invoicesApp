@@ -1,4 +1,4 @@
-package com.invoices.app.models.dao;
+package com.invoices.app.models.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

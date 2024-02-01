@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.invoices.app.models.dto.InvoiceItemDto;
 import com.invoices.app.models.entities.InvoiceItem;
-import com.invoices.app.models.dao.InvoiceItemRepository;
+import com.invoices.app.models.repository.InvoiceItemRepository;
 import com.invoices.app.services.exceptions.NotFoundException;
 import com.invoices.app.services.exceptions.SaveException;
 
