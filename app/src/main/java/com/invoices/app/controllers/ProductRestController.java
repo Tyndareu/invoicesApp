@@ -22,11 +22,11 @@ import com.invoices.app.services.ProductService;
 @CrossOrigin("http://localhost:4200")
 @RequestMapping("/api/products")
 
-public class ProductsRestController {
+public class ProductRestController {
 
   private final ProductService productService;
 
-  public ProductsRestController(ProductService productService) {
+  public ProductRestController(ProductService productService) {
     this.productService = productService;
   }
 
