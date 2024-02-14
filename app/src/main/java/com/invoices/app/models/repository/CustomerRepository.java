@@ -9,6 +9,8 @@ import com.invoices.app.models.entities.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+  boolean existsByEmail(String email);
+
   // Query without Invoices
   @Query("SELECT c FROM Customer c")
   List<Customer> findAllWithoutInvoices();

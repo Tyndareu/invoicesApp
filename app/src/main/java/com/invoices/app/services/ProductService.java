@@ -13,8 +13,8 @@ import com.invoices.app.models.entities.InvoiceItem;
 import com.invoices.app.models.entities.Product;
 import com.invoices.app.models.repository.InvoiceItemRepository;
 import com.invoices.app.models.repository.ProductRepository;
+import com.invoices.app.services.exceptions.ConflictException;
 import com.invoices.app.services.exceptions.NotFoundException;
-import com.invoices.app.services.exceptions.ProductLinkedToInvoice;
 import com.invoices.app.services.exceptions.SaveException;
 
 import lombok.RequiredArgsConstructor;
@@ -85,7 +85,7 @@ public class ProductService {
   public void deleteProduct(@NonNull Long id) {
     List<InvoiceItem> invoiceItems = this.invoiceItemRepository.findByProductId(id);
     if (!invoiceItems.isEmpty()) {
-      throw new ProductLinkedToInvoice(productWithID + id + " cannot be deleted because it is linked to "
+      throw new ConflictException(productWithID + id + " cannot be deleted because it is linked to "
           + invoiceItems.size() + " invoice items");
     }
     this.productRepository.deleteById(id);

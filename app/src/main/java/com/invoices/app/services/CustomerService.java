@@ -12,6 +12,7 @@ import com.invoices.app.models.dto.CustomerDto;
 import com.invoices.app.models.dto.CustomersWithoutInvoicesDto;
 import com.invoices.app.models.entities.Customer;
 import com.invoices.app.models.repository.CustomerRepository;
+import com.invoices.app.services.exceptions.ConflictException;
 import com.invoices.app.services.exceptions.NotFoundException;
 import com.invoices.app.services.exceptions.SaveException;
 
@@ -94,6 +95,10 @@ public class CustomerService {
 
     if (customer == null) {
       throw new SaveException("Error saving customer: Unable to save customer information", null);
+    }
+
+    if (customerRepository.existsByEmail(customer.getEmail())) {
+      throw new ConflictException("Cannot create customer: Email already exists");
     }
 
     try {
